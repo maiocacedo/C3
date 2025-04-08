@@ -11,8 +11,6 @@
 
 
 // 0. Template de código //TODO comentar as linhas do código e explicar seu funcionamento abaixo.
-int func() {
-}
 
 /* 
 ? (O que ela faz?)
@@ -21,6 +19,13 @@ int func() {
 !       input:  | output:
 !       input:  | output:
 */
+
+// Structs exercicio 7:
+typedef struct {
+    int cod; // Idade do aluno
+    char nome[50]; // Nome do aluno
+    float preco; // 
+} Produto; // Nome da struct
 
 /*
 Exercicio 1:
@@ -78,6 +83,51 @@ int inverte_vetor(int *v1, int *v2, int n){
     return maiorValor; //retorna o maior valor encontrado
 }
 
+// Função Exercicio 8:
+
+void leVetor(int *p, int n){
+    for(int i = 0; i < n; i++){
+        printf("Digite o valor do vetor[%d]: ", i); // Mensagem para o usuário
+        scanf("%d", &p[i]); // Lê o valor do vetor
+    }
+    printf("\nVetor:\n"); // Mensagem para o usuário
+    for(int i = 0; i < n; i++){
+        printf(" %d ", p[i]); // Imprime o valor do vetor
+    }
+    printf("\n\n"); // Imprime uma nova linha para separar a saída
+
+}
+
+// Função Exercício 9:
+
+int ** criaMatriz(int m, int n){
+    int **matriz = (int **) malloc((1+m) * sizeof(int*)); // Aloca memória para a matriz
+
+    if (matriz == NULL) { // Verifica se a alocação foi bem-sucedida
+        printf("Erro ao alocar memoria\n"); // Mensagem de erro
+        exit(1); // Encerra o programa com erro
+    }
+
+    for (int i = 0; i < m; i++){
+        for (int j = 0; j < n; j++){
+        matriz[i]= (int*) malloc((n+1)*sizeof(int));
+
+        if(matriz[i] == NULL){
+            printf("Erro de alocação");
+        }
+        }
+    }
+
+    return matriz; // Retorna o ponteiro para a matriz alocada
+}
+
+void limpaBaguncaMatriz(int **matriz, int m){
+    for (int i = 0; i < m; i++){
+        free(matriz[i]); // Libera a memória de cada linha da matriz
+    }
+    free(matriz); // Libera a memória da matriz
+}
+
 int main(){
      
     //exercicio 2:
@@ -119,7 +169,7 @@ int main(){
     printf("Informe o valor de N para o tamanho do vetor:\n");
     scanf("%d", &n); //recebera o tamanho de n para depois criar o vetor
 
-    v = (int *) malloc(n * sizeof(int)); // Aloca a memoria como N ja foi digitado por o usuario para a criação do vetor
+    v = (int *) malloc((unsigned int) n * sizeof(int)); // Aloca a memoria como N ja foi digitado por o usuario para a criação do vetor
     
     printf("Digite os valores para o vetor:\n"); // for utilizado para pegar as entradas do usuario e as atribuir ao vetor
     for (int i = 0; i < n; i++){
@@ -153,8 +203,8 @@ int main(){
 
     int *VET1, *VET2;
 
-    VET1 = (int *) malloc(n2 * sizeof(int)); //alocando memoria para o vetor 1
-    VET2 = (int *) malloc(n2 * sizeof(int)); //alocando memoria para o vetor 2
+    VET1 = (int *) malloc((unsigned int)n2 * sizeof(int)); //alocando memoria para o vetor 1
+    VET2 = (int *) malloc((unsigned int)n2 * sizeof(int)); //alocando memoria para o vetor 2
 
     printf("\nDigite os valores para o vetor V1:\n"); //recebendo os valores do vetor 1
     for(int i2 = 0; i2 < n2; i2++){
@@ -180,6 +230,132 @@ int main(){
 
     free(VET1); //limpando bagunça
     free(VET2); //limpando bagunça
+
+    printf("\nExercicio 6:\n");
+    
+    //exercicio 6:
+    /*Resolução: Para a resolução do exercício, foi utilizado de operações com ponteiros para que, a partir do decremento
+    e incremento do ponteiro, fosse possível percorrer a string, independente do seu tamanho. Dessa forma, foram utilizados dois loops while
+    para percorrer a string até o fim, e outro para percorrer a string até o início. Assim, primeiro é impresso a string pré-inversão e depois
+    a mesma invertida. Utilizou-se apenas duas variáveis, o ponteiro char cptr e a string s.*/
+
+
+    char s[10] = "abcde"; // vetor de char
+    char* cptr; // ponteiro para char
+
+    // Seu código começa aqui
+
+    cptr = s; //cptr recebe o endereço de s que é o vetor de char
+    while (*cptr != '\0') // enquanto o valor apontado por cptr não for o caractere nulo
+    {
+        printf(" %c ", *cptr); // imprime o caractere atual
+        cptr++; // avança para o próximo caractere
+    }
+    {
+        printf(" %c ", *cptr); // imprime o caractere nulo
+        cptr++; // avança para o próximo caractere
+    }
+
+    printf("\n\n"); // imprime uma nova linha para separar a saída
+
+    while (cptr >= s) {
+        cptr--; // retrocede para o caractere anterior
+        printf(" %c ", *cptr); // imprime o caractere atual
+    }
+
+
+    printf("\nExercicio 7:\n");
+    //exercicio 7:
+    /*Resolução: Esse exercício foi resolvido utilizando um ponteiro do tipo Produto, uma struct contendo as características
+    de um produto. É feita uma alocação dinamica com o número de produtos a serem cadastrados. Os produtos são cadastrados pelo 
+    Usuário, e o código de cada produto é gerado. Depois, é impressa a lista de códigos onde o cliente pode consultar os produtos pelo
+    código. Por fim, a memória é liberada.*/
+
+    Produto *produtoPtr; // Declara uma variável do tipo Produto
+    
+    
+    int numeroProdutos; // Número de produtos cadastrados
+    int produtoConsulta; // Declara um ponteiro para inteiro
+    
+    printf("Deseja cadastrar quantos produtos?\n");
+    scanf("%d", &numeroProdutos); // Lê o numero de produtos a serem cadastrados
+    
+    produtoPtr = (Produto *) malloc((numeroProdutos+1)*sizeof(Produto)); // Aloca memória para a variável p do tipo Produto
+
+    for(int i = 0; i<numeroProdutos; i++){
+        printf("Digite o nome do produto:\n"); 
+        scanf("%s", produtoPtr[i].nome); // Lê o valor do código do produto 
+        printf("Digite o preço do produto:\n"); 
+        scanf("%f", &produtoPtr[i].preco); // Lê o valor do código do produto
+        produtoPtr[i].cod = i+1; // Gera código do produto
+        printf("O codigo do produto é: %d\n", produtoPtr[i].cod); // Imprime o código desse produto
+    }
+
+    for(int i = 0; i<numeroProdutos; i++){
+        printf("\nProduto de Codigo: %d\n", produtoPtr[i].cod); // Imprime o nome do produto
+    } 
+
+    printf("\nDigite o codigo do produto a ser consultado:\n"); // Mensagem para o usuário
+    scanf("%d", &produtoConsulta); // Lê o código do produto a ser consultado
+
+    printf("\nCodigo: %d\n", produtoPtr[produtoConsulta-1].cod); // Imprime o nome do produto
+    printf("\nProduto: %s\n", produtoPtr[produtoConsulta-1].nome); // Imprime o nome do produto
+    printf("Preco: %.2f\n", produtoPtr[produtoConsulta-1].preco); // Imprime o preço do produto
+
+    free(produtoPtr); // Limpando a bagunça
+
+    printf("\nExercicio 8:\n");
+    
+    //exercicio 8:
+    /*Resolução: O usuario informa o numero de elementos, com esse valor, é feita a alocação dinamica do vetorINT,
+    e a função responsável por receber e imprimir os valores desse vetor é chamada, tendo como parâmetros o vetor
+    e o numero de elementos. O vetor é preenchido pelo usuário.*/
+
+
+    int nelementos; // Declaração da variável nelementos
+    
+    int *vetorINT; // Declaração do ponteiro p
+    
+    printf("Informe o tamanho do vetor:\n"); // Mensagem para o usuário"
+    scanf("%d", &nelementos); // Lê o tamanho do vetor a ser alocado
+
+    vetorINT = (int *) malloc(nelementos*sizeof(int)); // Aloca memória para o ponteiro p, com espaço para 5 inteiros
+
+    leVetor(vetorINT, nelementos); // Chama a função imprimeVetor passando o ponteiro p como argumento
+
+    free(vetorINT); // Libera a memória alocada para o ponteiro p
+
+    printf("\nExercicio 9:\n");
+
+    // exercicio 9:
+    /*Resolução: Nesse exercício, foi criada uma função responsavel por criar uma matriz utilizando alocação
+    dinâmica a partir de um numero de linhas e colunas m e n, e outra função para limpar a memoria de uma matriz. 
+    No programa principal, é criada uma matriz mat que é preenchida e impressa e depois limpada.
+    */
+
+
+    int nlinhas = 2, ncolunas = 2;
+    int **mat = criaMatriz(nlinhas, ncolunas); // Chama a função para criar a matriz
+
+    // Preenche a matriz com valores para testar
+    for (int i = 0; i < nlinhas; i++){
+        for (int j = 0; j < ncolunas; j++){
+            mat[i][j] = i + j; // Exemplo de preenchimento
+        }
+    }
+
+    // Imprime a matriz
+    for (int i = 0; i < nlinhas; i++){
+        for (int j = 0; j < ncolunas; j++){
+            printf("%d\t", mat[i][j]); // Imprime os valores da matriz
+        }
+        printf("\n"); // Nova linha após cada linha da matriz
+    }
+
+
+    limpaBaguncaMatriz(mat, nlinhas); // Chama a função para limpar a bagunça
+
+
 
 return(0); 
 }

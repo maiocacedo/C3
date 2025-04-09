@@ -1,6 +1,7 @@
 # Listas de Exercícios da Diciplina de Algoritmos e Estruturas de Dados III
 
-<p>Todas as listas realizadas por **Caio Macedo Lima da Cruz** e **José Carlos Seben** <br> <br> </p>
+Todas as listas realizadas por **Caio Macedo Lima da Cruz** e **José Carlos Seben** 
+
 
 - [X] Lista 1 - Recursividade 
 - [X] Lista 2 - Ponteiros

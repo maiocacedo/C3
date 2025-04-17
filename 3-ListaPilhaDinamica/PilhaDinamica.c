@@ -10,14 +10,14 @@ struct elemento{
 typedef struct elemento Elem;
 
 
-Pilha* cria_Pilha(){
+Pilha* criaPilha(){
     Pilha* pi = (Pilha*) malloc(sizeof(Pilha));
     if(pi != NULL)
         *pi = NULL;
     return pi;
 }
 
-void libera_Pilha(Pilha* pi){
+void liberaPilha(Pilha* pi){
     if(pi == NULL){
         Elem* no;
         while((*pi) != NULL){
@@ -29,7 +29,7 @@ void libera_Pilha(Pilha* pi){
     }
 }
 
-int tamanho_Pilha(Pilha* pi){
+int tamanhoPilha(Pilha* pi){
     if(pi == NULL)
         return 0;
     int cont = 0;
@@ -41,13 +41,63 @@ int tamanho_Pilha(Pilha* pi){
     return cont;
 }
 
-int consulta_topo_Pilha(Pilha* pi, struct aluno *al){
+int consultaTopoPilha(Pilha* pi, struct aluno *al){
     if(pi == NULL)
         return 0;
     if((*pi) == NULL)
         return 0;
     *al = (*pi)->dados;
     return 1;
+}
+
+Pilha *copiaPilha (Pilha* pi){
+    if (pi == NULL){
+        printf("Pilha nula\n");
+        return NULL;
+    }
+    if (*pi != NULL){
+        Pilha* piAuxReverso = criaPilha();
+        if(piAuxReverso == NULL ){
+            printf("Erro ao alocar pilha auxiliar\n");
+            return NULL;
+        }
+        Pilha* piAux = criaPilha();
+        if(piAux == NULL ){
+            printf("Erro ao alocar pilha auxiliar\n");
+            return NULL;
+        }
+        Elem *no = *pi;
+        while(no != NULL){
+            Elem* novo = (Elem*) malloc(sizeof(Elem));
+            if(novo == NULL){
+                printf("Erro ao alocar no auxiliar\n");
+                liberaPilha(piAuxReverso);
+                liberaPilha(piAux);
+                return NULL;
+            }
+            novo->dados = no->dados;
+            novo->prox = *piAuxReverso;
+            *piAuxReverso = novo;
+            no = no->prox;
+        }
+        no = *piAuxReverso;
+        while(no != NULL){
+            Elem* novo = (Elem*) malloc(sizeof(Elem));
+            if(novo == NULL){
+                printf("Erro ao alocar no auxiliar\n");
+                liberaPilha(piAuxReverso);
+                liberaPilha(piAuxReverso);
+                return NULL;
+            }
+            novo->dados = no->dados;
+            novo->prox = *piAux;
+            *piAux = novo;
+            no = no->prox;
+        }
+        liberaPilha(piAuxReverso);
+        return piAux; 
+    }
+    return NULL; 
 }
 
 int pop2(Pilha* pi){

@@ -9,10 +9,11 @@ typedef struct aluno{
 typedef struct elemento* Pilha;
 typedef struct elemento Elem;
 
-Pilha* cria_Pilha();
-void libera_Pilha(Pilha* pi);
-int tamanho_Pilha(Pilha* pi);
-int consulta_topo_Pilha(Pilha* pi, Aluno *al);
+Pilha* criaPilha();
+void liberaPilha(Pilha* pi);
+int tamanhoPilha(Pilha* pi);
+int consultaTopoPilha(Pilha* pi, Aluno *al);
+Pilha *copiaPilha(Pilha* pi);
 int pop2(Pilha* pi);
 int push2(Pilha* pi, Aluno *al);
 int popN(Pilha* pi, int n);

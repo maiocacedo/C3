@@ -9,14 +9,31 @@ struct elemento{
 };
 typedef struct elemento Elem;
 
+struct elementoNum{
+    int dados;
+    struct elemento *prox;
+};
+typedef struct elementoNum ElemNum;
 
+struct elementoStr{
+    char dados;
+    struct elemento *prox;
+};
+typedef struct elementoStr ElemStr;
+
+// Cria uma pilha vazia
 Pilha* criaPilha(){
     Pilha* pi = (Pilha*) malloc(sizeof(Pilha));
     if(pi != NULL)
         *pi = NULL;
     return pi;
 }
+/*
 
+*/
+
+
+// Libera a pilha
 void liberaPilha(Pilha* pi){
     if(pi == NULL){
         Elem* no;
@@ -28,7 +45,11 @@ void liberaPilha(Pilha* pi){
         free(pi);
     }
 }
+/*
 
+*/
+
+// Tamanho da pilha
 int tamanhoPilha(Pilha* pi){
     if(pi == NULL)
         return 0;
@@ -40,8 +61,12 @@ int tamanhoPilha(Pilha* pi){
     }
     return cont;
 }
+/*
 
-int consultaTopoPilha(Pilha* pi, struct aluno *al){
+*/
+
+// Consulta o topo da pilha
+int consultaTopoPilha(Pilha* pi, Aluno *al){
     if(pi == NULL)
         return 0;
     if((*pi) == NULL)
@@ -49,7 +74,11 @@ int consultaTopoPilha(Pilha* pi, struct aluno *al){
     *al = (*pi)->dados;
     return 1;
 }
+/*
 
+*/
+
+// Copia a pilha *Exercicio 3*
 Pilha *copiaPilha (Pilha* pi){
     if (pi == NULL){
         printf("Pilha nula\n");
@@ -99,7 +128,65 @@ Pilha *copiaPilha (Pilha* pi){
     }
     return NULL; 
 }
+/*
 
+*/
+
+// Copia a pilha de string *Exercicio 3*
+PilhaStr *copiaPilhaStr(PilhaStr* pi){
+    if (pi == NULL){
+        printf("Pilha nula\n");
+        return NULL;
+    }
+    if (*pi != NULL){
+        PilhaStr* piAuxReverso = criaPilha();
+        if(piAuxReverso == NULL ){
+            printf("Erro ao alocar pilha auxiliar\n");
+            return NULL;
+        }
+        PilhaStr* piAux = criaPilha();
+        if(piAux == NULL ){
+            printf("Erro ao alocar pilha auxiliar\n");
+            return NULL;
+        }
+        ElemStr *no = *pi;
+        while(no != NULL){
+            ElemStr* novo = (ElemStr*) malloc(sizeof(ElemStr));
+            if(novo == NULL){
+                printf("Erro ao alocar no auxiliar\n");
+                liberaPilha(piAuxReverso);
+                liberaPilha(piAux);
+                return NULL;
+            }
+            novo->dados = no->dados;
+            novo->prox = *piAuxReverso;
+            *piAuxReverso = novo;
+            no = no->prox;
+        }
+        no = *piAuxReverso;
+        while(no != NULL){
+            ElemStr* novo = (ElemStr*) malloc(sizeof(ElemStr));
+            if(novo == NULL){
+                printf("Erro ao alocar no auxiliar\n");
+                liberaPilha(piAuxReverso);
+                liberaPilha(piAuxReverso);
+                return NULL;
+            }
+            novo->dados = no->dados;
+            novo->prox = *piAux;
+            *piAux = novo;
+            no = no->prox;
+        }
+        liberaPilha(piAuxReverso);
+        return piAux; 
+    }
+    return NULL; 
+}
+/*
+
+*/
+
+// Remove 2 elementos da pilha *Exercicio 1*
 int pop2(Pilha* pi){
     if (*pi == NULL){
         printf("pilha vazia");
@@ -119,9 +206,11 @@ int pop2(Pilha* pi){
     printf("Pilha nula\n");
     return 0;
 }
+/*
 
+*/
 
-
+// Adiciona 2 elementos na pilha *Exercicio 1*
 int push2(Pilha* pi, Aluno* al){
     if (pi == NULL){
         printf("Pilha nula");
@@ -147,7 +236,11 @@ int push2(Pilha* pi, Aluno* al){
 }
     return 1;
 }
+/*
 
+*/
+
+// Remove n elementos da pilha *Exercicio 2*
 int popN(Pilha* pi, int n){
     if (*pi == NULL){
         printf("Pilha vazia");
@@ -167,9 +260,11 @@ int popN(Pilha* pi, int n){
     printf("Pilha nula");
     return 0;
 }
+/*
 
+*/
 
-
+// Adiciona n elementos na pilha *Exercicio 2*
 int pushN(Pilha* pi, Aluno* al, int n){
     if (pi == NULL){
         printf("Pilha nula");
@@ -196,7 +291,70 @@ int pushN(Pilha* pi, Aluno* al, int n){
     }
     return 1;
 }
+/*
 
+*/
+
+// Adiciona n elementos na pilha de inteiros
+int pushNNum(PilhaNum* pi, int* x, int n){
+    if (pi == NULL){
+        printf("Pilha nula");
+        return 0;
+    }
+    int count = 0;
+    while(count < n){
+        ElemNum* no = (ElemNum*) malloc(sizeof(ElemNum));
+        if (no == NULL) {
+            printf("Erro ao alocar no auxiliar\n");
+            while (*pi != NULL) {
+                ElemNum* temp = *pi;
+                *pi = (*pi)->prox;
+                free(temp);
+            }
+            return 0;
+        }
+
+        no -> dados = x[count];
+        no -> prox = *pi;
+        *pi = no;
+        count++;
+
+    }
+    return 1;
+}
+/*
+
+*/
+
+// Adiciona 1 elemento na pilha de inteiros
+int push1(PilhaNum* pi, int x){
+    if (pi == NULL){
+        printf("Pilha nula");
+        return 0;
+    }
+    int count = 0;
+    ElemNum* no = (ElemNum*) malloc(sizeof(ElemNum));
+    if (no == NULL) {
+        printf("Erro ao alocar no auxiliar\n");
+        while (*pi != NULL) {
+            ElemNum* temp = *pi;
+            *pi = (*pi)->prox;
+            free(temp);
+            }
+        return 0;
+        }
+
+    no -> dados = x;
+    no -> prox = *pi;
+    *pi = no;
+
+    return 1;
+}
+/*
+
+*/
+
+// Imprime a pilha
 void imprimirPilha(Pilha* pi){
     if(*pi != NULL){
         Elem* no = *pi;
@@ -213,7 +371,11 @@ void imprimirPilha(Pilha* pi){
     }
     return;
 }
+/*
 
+*/
+
+// Imprime a pilha 
 void imprimirPilhaRecursiva(Elem* no) {
     if (no == NULL) {
         return; // Caso base: fim da pilha
@@ -231,7 +393,11 @@ void imprimirPilhaRecursiva(Elem* no) {
     // Chamada recursiva para o próximo elemento
     imprimirPilhaRecursiva(no->prox);
 }
+/*
 
+*/
+
+// Imprime a pilha de forma inversa
 void imprimirPilhaInversaRecursiva(Elem* no) {
     if (no == NULL) {
         return; // Caso base: fim da pilha
@@ -248,4 +414,238 @@ void imprimirPilhaInversaRecursiva(Elem* no) {
     printf("-------------------------------\n");
 
     // Chamada recursiva para o próximo elemento
+}
+/*
+
+*/
+
+// imprime o maior, menor e a media da pilha de inteiros *Exercicio 4*
+int maiorMenorMedia(PilhaNum* pi){
+    if (pi == NULL){
+        printf("pilha nula.");
+        return 0;
+    }
+
+    int maior;
+    int menor;
+    float media = 0;
+    int n = 0;
+
+    if(*pi != NULL){
+
+        ElemNum* no = *pi;
+        
+        maior = no->dados;
+        menor = no->dados;
+        
+        while(no!=NULL){
+
+            if(no->dados > maior){
+                maior = no->dados;
+            }
+            if(no->dados < menor){
+                menor = no->dados;
+            }
+
+            media += no->dados;
+            n++;
+            no = no->prox;
+        }
+
+        media = media / n;
+
+        printf("| MAIOR: %d\n", maior);
+        printf("| MENOR: %d\n", menor);
+        printf("| MEDIA: %.2f\n", media);
+        return 1;
+    }
+    return 0;
+}
+/*
+
+*/
+
+// Compara duas pilhas de inteiros *Exercicio 5*
+int pilhaIgual(PilhaNum* pi1, PilhaNum* pi2){
+    if (pi1 == NULL || pi2 == NULL){
+        printf("pilhas nulas.");
+        return 0;
+    }
+    if(*pi1 != NULL && *pi2 != NULL){
+
+        ElemNum* no1 = *pi1;
+        ElemNum* no2 = *pi2;
+
+        while(no1!=NULL && no2 != NULL
+            && no1->dados == no2->dados){
+
+            no1 = no1->prox;
+            no2 = no2->prox;
+            
+        }
+        if(no1 == NULL && no2 == NULL){
+            printf("são iguais");
+            return 1;
+        }
+
+        printf("não são iguais");
+        return 0;
+
+        }
+    return 0;
+}
+/*
+
+*/
+
+// Compara duas pilhas de string
+int pilhaIgualStr(PilhaStr* pi1, PilhaStr* pi2){
+    if (pi1 == NULL || pi2 == NULL){
+        printf("pilhas nulas.");
+        return 0;
+    }
+    if(*pi1 != NULL && *pi2 != NULL){
+
+        ElemStr* no1 = *pi1;
+        ElemStr* no2 = *pi2;
+
+        while(no1!=NULL && no2 != NULL
+            && no1->dados == no2->dados){
+
+            no1 = no1->prox;
+            no2 = no2->prox;
+            
+        }
+        if(no1 == NULL && no2 == NULL){
+            printf("são iguais");
+            return 1;
+        }
+
+        printf("não são iguais");
+        return 0;
+
+        }
+    return 0;
+}
+/*
+
+*/
+
+// Inverte a pilha de string *Exercicio 6a*
+int pilhaStrInversa(PilhaStr* pi){
+    
+    if (pi == NULL || *pi == NULL){
+        printf("pilha nula ou vazia.");
+        return 0;
+    }
+    PilhaStr* piAuxReverso = criaPilha();
+    if(piAuxReverso == NULL ){
+        printf("Erro ao alocar pilha auxiliar\n");
+        return 0;
+    }
+    
+    ElemStr *no = *pi;
+    while(no != NULL){
+        ElemStr* novo = (ElemStr*) malloc(sizeof(ElemStr));
+        if(novo == NULL){
+            printf("Erro ao alocar no auxiliar\n");
+            liberaPilha(piAuxReverso);
+            return 0;
+        }
+        novo->dados = no->dados;
+        novo->prox = *piAuxReverso;
+        *piAuxReverso = novo;
+        no = no->prox;
+    }
+    return piAuxReverso;
+}
+/*
+
+*/
+
+// Verifica se a pilha de string é palíndromo *Exercicio 6b*
+int pilhaStrPalindromo(PilhaStr* pi){
+
+    if (pi == NULL || *pi == NULL){
+        printf("pilha nula ou vazia.");
+        return 0;
+    }
+    PilhaStr* piAuxReverso = pilhaStrInversa(pi);
+    if (piAuxReverso == NULL) {
+    if (pilhaIgualStr(pi, piAuxReverso)){
+        return 0;
+    }
+
+    if (pilhaIgualStr(pi, piAuxReverso) == 1){
+        liberaPilha(piAuxReverso);
+        printf("É palíndromo");
+        return 1;
+    }
+    else{
+        liberaPilha(piAuxReverso);
+        printf("Não é palíndromo");
+        return 0;
+    }
+}
+}
+/*
+
+*/
+
+// Verifica a quantidade de números pares e ímpares na pilha de inteiros
+int pilhasNumParImpar(PilhaNum* pi){
+    if (pi == NULL){
+        printf("pilha nula.");
+        return 0;
+    }
+
+    int parCount = 0;
+    int imparCount = 0;
+
+    if(*pi != NULL){
+
+        ElemNum* no = *pi; 
+        
+        while(no!=NULL){
+            if(no->dados % 2 == 0){
+                parCount++;
+            }
+            if(no->dados % 2 != 0){
+                imparCount++;
+            }
+            no = no->prox;
+        }
+
+        printf("| Par: %d\n", parCount);
+        printf("| Impar: %d\n", imparCount);
+        return 1;
+
+    }
+    return 0;
+}
+/*
+
+*/
+
+// 
+int cadeiaStr(PilhaStr* pi){
+
+}
+/*
+
+*/
+
+// Converte um número decimal para binário e armazena na pilha de inteiros
+int conversorBin(int dec, PilhaNum* pi){
+    if(pi == NULL){
+        printf("pilha nula.");
+        return 0;
+    }
+    int resto;
+    while(dec != 0)
+    {
+       resto = dec%2;
+       push1(pi, resto);
+       dec = dec/2;
+   }
 }

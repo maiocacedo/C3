@@ -1,3 +1,13 @@
+/*
+
+* 3 - Lista de Pilha Dinamica - Algoritmos e Estruturas de Dados III 
+* Autores: | > Caio Macedo Lima da Cruz.....RA: 2651378
+*          | > José Carlos Seben............RA: 2651130
+
+*/
+
+// Arquivo: PilhaDinamica.c - Funções da pilha dinamica
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "PilhaDinamica.h" //inclui os Prototipos
@@ -464,7 +474,7 @@ int popN(Pilha* pi, int n){
     }
     // Verifica o valor de n
     if (n < 1){
-        printf("Valor de n inválido\n");
+        printf("Valor de n invalido\n");
         return 0;
     }
     // Verifica o tamanho da pilha
@@ -756,7 +766,7 @@ int pushNNum(PilhaNum* pi, int* x, int n){
 }
 
 // Adiciona n elementos na pilha de String
-int pushNStr(PilhaStr* pi, int* x, int n){
+int pushNStr(PilhaStr* pi, char* x, int n){
     // Verifica se a pilha é nula
     if (pi == NULL){
         printf("Pilha nula");
@@ -835,7 +845,7 @@ void imprimirPilhaNum(PilhaNum* pi){
         ElemNum* no = *pi;
         // Percorre a pilha e imprime os elementos
         while(no!=NULL){
-            printf("Número: %d\n", no->dados);
+            printf("Numero: %d\n", no->dados);
             printf("-------------------------------\n");
             no = no->prox;
         }
@@ -978,11 +988,11 @@ int pilhaIgual(PilhaNum* pi1, PilhaNum* pi2){
         }
         // Verifica se as pilhas são iguais, se ambas chegaram ao fim
         if(no1 == NULL && no2 == NULL){
-            printf("são iguais");
+            printf("As pilhas sao iguais");
             return 1;
         }
 
-        printf("não são iguais");
+        printf("As pilhas nao sao iguais");
         return 0;
 
         }
@@ -1014,11 +1024,11 @@ int pilhaIgualStr(PilhaStr* pi1, PilhaStr* pi2){
         }
         // Verifica se as pilhas são iguais, se ambas chegaram ao fim
         if(no1 == NULL && no2 == NULL){
-            printf("são iguais");
+            printf("As pilhas são iguais");
             return 1;
         }
 
-        printf("não são iguais");
+        printf("As pilhas nao sao iguais");
         return 0;
 
         }
@@ -1179,7 +1189,7 @@ int xCy(char* str){
     }
     // Verifica se o separador 'C' foi encontrado
     if(str[i] != 'C'){
-        printf("Inválido\n");
+        printf("Invalido\n");
         liberaPilhaStr(pi);
         return 0;
     }
@@ -1192,31 +1202,32 @@ int xCy(char* str){
         consultaTopoPilhaStr(pi, &c);
         // Verifica se o caractere atual é 'A' ou 'B'
         if (str[i]!='A' && str[i]!='B'){
-            printf("Inválido\n");
+            printf("InvAlido\n");
             liberaPilhaStr(pi);
             return 0;
         }
-        // Verifica se o caractere atual é igual ao topo da pilha
-        if(str[i] == c){
-            printf("Inválido\n");
+        // Verifica se o caractere atual é diferente do topo da pilha
+        // Se o caractere atual for 'A', o topo da pilha deve ser 'B' e vice-versa
+        if((c == 'A' && str[i] != 'B') || (c == 'B' && str[i] != 'A')){
+            printf("InvAlido\n");
             liberaPilhaStr(pi);
             return 0;
         }
         // Desempilha o caractere do topo da pilha
         if(pop1Str(pi) == 0){
-            printf("Inválido\n");
+            printf("InvAlido\n");
             liberaPilhaStr(pi);
             return 0;
         }
-        pop1Str(pi); // Desempilha o caractere do topo da pilha
+            
         i++; // Avança para o próximo caractere
     }
     if (tamanhoPilhaStr(pi) == 0) {
-        printf("Válido: %s\n", str);
+        printf("VAlido: %s\n", str);
         liberaPilhaStr(pi);
         return 1;
     } else {
-        printf("Inválido\n");
+        printf("InvAlido\n");
         liberaPilhaStr(pi);
         return 0;
     }
@@ -1253,3 +1264,610 @@ Ela utiliza o método de divisão sucessiva, onde o resto da divisão é empilha
 Depois, o número é dividido por 2 até que o número decimal seja 0.
 Por fim, retorna a pilha com os números binários.
 */
+
+
+/*
+MENUS PARA ACESSAR AS PILHAS E REALIZAR AS OPERAÇÕES;
+
+- MENU PRINCIPAL: TE LEVA PARA OS OUTROS MENUS;
+- MENU PILHA ALUNO: TE LEVA PARA O MENU DE ALUNOS;
+- MENU PILHA STR: TE LEVA PARA O MENU DE STRINGS;
+- MENU PILHA NUM: TE LEVA PARA O MENU DE INTEIROS;
+- MENU PILHA EX: TE LEVA PARA O MENU DE EXERCÍCIOS ONDE CADA EXERCÍCIO PODE SER ACESSADO INDIVIDUALMENTE;
+
+*/
+
+// Menu do exercício 9 
+void menu(){
+    PilhaNum* pi = NULL;
+    int op = 0;
+    while(op != 8){
+    printf("Escolha uma opcao:\n");
+    printf("1-Inicializa pilha.\n");
+    printf("2-Verifica se a pilha e vazia.\n");
+    printf("3-Verifica se a pilha e cheia.\n");
+    printf("4-Empilha o elemento na pilha.\n");
+    printf("5-Desempilha elemento da pilha.\n");
+    printf("6-Le topo de um pilha.\n");
+    printf("7-Converte um numero decimal em binario.\n");
+    printf("8-Sair.\n");
+    scanf("%d", &op);
+    switch(op){
+        case 1:
+            pi = criaPilhaNum();
+            printf("Pilha criada com sucesso.\n");
+            break;
+        case 2:
+            if (pi == NULL || *pi == NULL)
+                printf("Pilha vazia.\n");
+            
+            break;
+        case 3:
+            if (pi != NULL || *pi != NULL)
+                printf("Pilha cheia.\n");
+            break;
+        case 4:{
+            int x;
+            printf("Digite um numero inteiro: ");
+            scanf("%d", &x);
+            if(push1Num(pi, x) == 1)
+                printf("Elemento empilhado com sucesso.\n");
+            
+            break;
+        }
+        case 5:
+            if(pop1Num(pi) == 1)
+                printf("Elemento desempilhado com sucesso.\n");
+            break;
+        case 6:{
+            int xTopo;
+            if(consultaTopoPilhaNum(pi, &xTopo) == 1)
+                printf("Elemento no topo da pilha: %d\n", xTopo);
+            break;
+        }
+        case 7:{
+            int dec;
+            printf("Digite um numero decimal: ");
+            scanf("%d", &dec);
+            PilhaNum* piNumDec = criaPilhaNum();
+            piNumDec = conversorBin( dec, piNumDec);
+            printf("Pilha representando o número em binario:\n");
+            imprimirPilhaNum(piNumDec);
+            printf("Numero convertido com sucesso.\n");
+            liberaPilhaNum(piNumDec);
+            break;
+        }
+        case 8:
+            printf("Saindo...\n");
+            break;
+        default:
+            printf("Opcao invalida. Tente novamente.\n");
+            break;
+    }
+}
+}
+
+// Menu principal
+void menuPrincipal(){
+    int op = 0;
+    while (op != 5){
+    
+    printf("Escolha uma opcao:\n");
+    printf("1-Pilha de Alunos.\n"); 
+    printf("2-Pilha de String\n"); 
+    printf("3-Pilha de inteiros.\n"); 
+    printf("4- Exercicios\n"); 
+    printf("5-Sair.\n");
+    scanf("%d", &op);
+    switch (op) {
+        case 1:
+            menuPilhaAluno();
+            break;
+        case 2:
+            menuPilhaStr();
+            break;
+        case 3:
+            menuPilhaNum();
+            break;
+        case 4:
+            menuPilhaEx();
+            break;
+        case 5:
+            printf("Saindo...\n");
+            break;
+        default:
+            printf("Opcao invalida. Tente novamente.\n");
+            break;
+    
+    }
+}
+} 
+
+// Menu de pilha de Alunos
+void menuPilhaAluno(){
+    int op = 0;
+    Pilha* pi = NULL;
+    while (op != 8){
+    
+    printf("Escolha uma opcao:\n");
+    printf("1-Inicializa pilha.\n"); 
+    printf("2-Verifica se a pilha e vazia.\n"); 
+    printf("3-Verifica se a pilha e cheia.\n"); 
+    printf("4-Empilha o elemento na pilha.\n"); 
+    printf("5-Desempilha elemento da pilha.\n"); 
+    printf("6-Le topo de um pilha.\n"); 
+    printf("7-Imprimir pilha Inversa\n"); 
+    printf("8-Sair.\n");
+    scanf("%d", &op);
+    switch(op){
+        case 1:
+            pi = criaPilha();
+            if(pi != NULL){
+                printf("Pilha criada com sucesso.\n");
+            }else{
+                printf("Erro ao criar pilha.\n");
+            }
+            break;
+        case 2:
+            if (pi == NULL || *pi == NULL){
+                printf("Pilha vazia.\n");
+            }else{
+                printf("Pilha nao vazia.\n");
+            }
+            break;
+        case 3:
+            if (pi == NULL || *pi == NULL){
+                printf("Pilha cheia.\n");
+            }else{
+                printf("Pilha nao cheia.\n");
+            }
+            break;
+        case 4:{
+            Aluno al;
+            printf("Digite a matricula: ");
+            scanf("%d", &al.matricula);
+            printf("Digite o nome: ");
+            scanf("%s", al.nome);
+            printf("Digite a nota 1: ");
+            scanf("%f", &al.n1);
+            printf("Digite a nota 2: ");
+            scanf("%f", &al.n2);
+            printf("Digite a nota 3: ");
+            scanf("%f", &al.n3);
+            if(push1(pi, al) == 1)
+                printf("Aluno empilhado com sucesso.\n");
+            break;
+        }
+        case 5:
+            if(pop1(pi) == 1)
+                printf("Aluno desempilhado com sucesso.\n");
+            break;
+        case 6:{
+            Aluno alTopo;
+        
+            if(consultaTopoPilha(pi, &alTopo) == 1)
+                printf("Aluno no topo da pilha: %d\n", alTopo.matricula);
+            break;
+        }
+        case 7:
+            printf("Pilha Inversa:\n");
+            imprimirPilhaInversaRecursiva(*pi);
+            break;
+        case 8:
+            liberaPilha(pi);
+            printf("Saindo...\n");
+            break;
+        default:
+            printf("Opcao invalida. Tente novamente.\n");
+            break;
+        }
+    }
+    }
+
+// Menu de pilha de inteiros
+void menuPilhaNum(){
+    int op = 0;
+    int x;
+    PilhaNum* pi = NULL;
+    while (op != 8){
+    
+    printf("Escolha uma opcao:\n");
+    printf("1-Inicializa pilha.\n"); 
+    printf("2-Verifica se a pilha e vazia.\n"); 
+    printf("3-Verifica se a pilha e cheia.\n"); 
+    printf("4-Empilha o elemento na pilha.\n"); 
+    printf("5-Desempilha elemento da pilha.\n"); 
+    printf("6-Le topo de um pilha.\n"); 
+    printf("7-Converte um numero decimal em binario.\n"); 
+    printf("8-Sair.\n");
+    scanf("%d", &op);
+    switch(op){
+        case 1:
+            pi = criaPilhaNum();
+            if(pi != NULL){
+                printf("Pilha criada com sucesso.\n");
+            }else{
+                printf("Erro ao criar pilha.\n");
+            }
+            break;
+        case 2:
+            if (pi == NULL || *pi == NULL){
+                printf("Pilha vazia.\n");
+            }else{
+                printf("Pilha nao vazia.\n");
+            }
+            break;
+        case 3:
+            if (pi == NULL || *pi == NULL){
+                printf("Pilha cheia.\n");
+            }else{
+                printf("Pilha nao cheia.\n");
+            }
+            break;
+        case 4:
+            printf("Digite um numero inteiro: ");
+            scanf("%d", &x);
+            if(push1Num(pi, x) == 1)
+                printf("Numero empilhado com sucesso.\n");
+            break;
+        case 5:
+            if(pop1Num(pi) == 1)
+                printf("Numero desempilhado com sucesso.\n");
+            break;
+        case 6:{
+            int topoNum;
+            if(consultaTopoPilhaNum(pi, &topoNum) == 1)
+                printf("Numero no topo da pilha: %d\n", topoNum);
+            break;
+        }
+        case 7:{
+            int dec;
+            printf("Digite um numero decimal: ");
+            scanf("%d", &dec);
+            conversorBin(dec, pi);
+            break;
+        }
+        case 8:
+            liberaPilhaNum(pi);
+            printf("Saindo...\n");
+            break;
+        default:
+            printf("Opcao invalida. Tente novamente.\n");
+            break;
+        }
+    }
+}
+
+
+// Menu de pilha de strings
+void menuPilhaStr(){
+    int op = 0;
+    char c;
+    PilhaStr* pi = NULL;
+    while (op != 8){
+    printf("Escolha uma opcao:\n");
+    printf("1-Inicializa pilha.\n"); 
+    printf("2-Verifica se a pilha e vazia.\n"); 
+    printf("3-Verifica se a pilha e cheia.\n"); 
+    printf("4-Empilha o elemento na pilha.\n"); 
+    printf("5-Desempilha elemento da pilha.\n"); 
+    printf("6-Le topo de um pilha.\n"); 
+    printf("7-Verifica se cadeia de caracteres é xCy\n"); 
+    printf("8-Sair.\n");
+    scanf("%d", &op);
+    switch(op){
+        case 1:
+            pi = criaPilhaStr();
+            if(pi != NULL){
+                printf("Pilha criada com sucesso.\n");
+            }else{
+                printf("Erro ao criar pilha.\n");
+            }
+            break;
+        case 2:
+            if (pi == NULL || *pi == NULL){
+                printf("Pilha vazia.\n");
+            }else{
+                printf("Pilha nao vazia.\n");
+            }
+            break;
+        case 3:
+            if (pi == NULL || *pi == NULL){
+                printf("Pilha cheia.\n");
+            }else{
+                printf("Pilha nao cheia.\n");
+            }
+            break;
+        case 4:
+            printf("Digite um caractere: ");
+            scanf(" %c", &c);
+            if(push1Str(pi, c) == 1)
+                printf("Caractere empilhado com sucesso.\n");
+            break;
+        case 5:
+            if(pop1Str(pi) == 1)
+                printf("Caractere desempilhado com sucesso.\n");
+            break;
+        case 6:
+            consultaTopoPilhaStr(pi, &c);
+            if(c != '\0')
+                printf("Caractere no topo da pilha: %c\n", c);
+            break;
+        case 7:{
+            printf("Digite a cadeia de caracteres: ");
+            char str[100];
+            scanf("%s", str);
+            if(xCy(str) == 1)
+                printf("Cadeia de caracteres valida.\n");
+            else
+                printf("Cadeia de caracteres invalida.\n");
+            break;
+        }
+        case 8:
+            liberaPilhaStr(pi);
+            printf("Saindo...\n");
+            break;
+        default:
+            printf("Opcao invalida. Tente novamente.\n");
+            break;
+        }
+    }
+}
+
+// Menu de exercícios
+// - Exercicio 1: push2 e pop2
+// - Exercicio 2: pushN e popN
+// - Exercicio 3: copiaPilha
+// - Exercicio 4: maiorMenorMedia
+// - Exercicio 5: pilhaIgual
+// - Exercicio 6: pilhaStrInversa e pilhaStrPalindromo
+// - Exercicio 7: pilhasNumParImpar
+// - Exercicio 8: xCy
+// - Exercicio 9: conversorBin e Menu
+void menuPilhaEx(){
+    int op = 0;
+    int n;
+    Pilha* pi = criaPilha();
+    PilhaNum* piNum = criaPilhaNum();
+    PilhaStr* piStr = criaPilhaStr();
+    while (op !=10){
+    
+    printf("Escolha uma opcao:\n");
+    printf("1- Exercicio 1\n"); 
+    printf("2- Exercicio 2\n"); 
+    printf("3- Exercicio 3\n"); 
+    printf("4- Exercicio 4\n"); 
+    printf("5- Exercicio 5\n"); 
+    printf("6- Exercicio 6\n"); 
+    printf("7- Exercicio 7\n"); 
+    printf("8- Exercicio 8\n");
+    printf("9- Exercicio 9\n");
+    printf("10-Sair.\n");
+    scanf("%d", &op);
+
+    switch (op) {
+        case 1:
+            printf("Exercicio 1\n");
+            Aluno *al = (Aluno*) malloc(sizeof(Aluno)*2);
+            printf("- push2\n\n");
+            if (al == NULL) {
+                printf("Erro ao alocar aluno\n");
+                return;
+            }
+            for(int i = 0; i < 2; i++){
+            printf("Digite a matricula: ");
+            scanf("%d", &al[i].matricula);
+            printf("Digite o nome: ");
+            scanf("%s", al[i].nome);
+            printf("Digite a nota 1: ");
+            scanf("%f", &al[i].n1);
+            printf("Digite a nota 2: ");
+            scanf("%f", &al[i].n2);
+            printf("Digite a nota 3: ");
+            scanf("%f", &al[i].n3);
+        }
+            if(push2(pi, al) == 1){
+                printf("Aluno empilhado com sucesso.\n");
+                printf("Pilha de Alunos:\n");
+                imprimirPilha(pi);
+            }
+            printf("- pop2\n\n");
+            if(pop2(pi) == 1){
+                printf("Aluno desempilhado com sucesso.\n");
+                printf("Pilha de Alunos:\n");
+                imprimirPilha(pi);
+            }
+            free(al);
+            break;
+        case 2:
+            printf("Exercicio 2\n");
+            printf("- pushN\n\n");
+            printf("Digite a quantidade de alunos: ");
+
+            scanf("%d", &n);
+            Aluno *al2 = (Aluno*) malloc(sizeof(Aluno)*n);
+            if (al2 == NULL) {
+                printf("Erro ao alocar aluno\n");
+                return;
+            }
+            for(int i = 0; i < n; i++){
+                printf("Digite a matricula: ");
+                scanf("%d", &al2[i].matricula);
+                printf("Digite o nome: ");
+                scanf("%s", al2[i].nome);
+                printf("Digite a nota 1: ");
+                scanf("%f", &al2[i].n1);
+                printf("Digite a nota 2: ");
+                scanf("%f", &al2[i].n2);
+                printf("Digite a nota 3: ");
+                scanf("%f", &al2[i].n3);
+            }
+            if(pushN(pi, al2, n) == 1){
+                printf("Alunos empilhados com sucesso.\n");
+                printf("Pilha de Alunos:\n");
+                imprimirPilha(pi);
+            }
+            printf("- popN\n\n");
+            printf("Digite a quantidade de alunos a desempilhar: ");
+            scanf("%d", &n);
+            if(popN(pi, n) == 1){
+                printf("Alunos desempilhados com sucesso.\n");
+                printf("Pilha de Alunos:\n");
+                imprimirPilha(pi);
+            }
+            break;
+        case 3:
+            printf("Exercicio 3\n");
+            printf("- copiaPilha\n\n");
+            Pilha* piCopia = copiaPilha(pi);
+            if(piCopia != NULL){
+                printf("Pilha copiada com sucesso.\n");
+                printf("Pilha de Alunos:\n");
+                imprimirPilha(piCopia);
+            }
+            break;
+        case 4:
+            printf("Exercicio 4\n");
+            printf("- maiorMenorMedia\n\n");
+            printf("Digite a quantidade de numeros: ");
+            int nNum;
+            scanf("%d", &nNum);
+            int* x = (int*) malloc(sizeof(int)*nNum);
+            if (x == NULL) {
+                printf("Erro ao alocar numeros\n");
+                return;
+            }
+            for(int i = 0; i < nNum; i++){
+                printf("Digite o numero %d: ", i+1);
+                scanf("%d", &x[i]);
+            }
+            if(pushNNum(piNum, x, nNum) == 1){
+                printf("Numeros empilhados com sucesso.\n");
+                printf("Pilha de Numeros:\n");
+                imprimirPilhaNum(piNum);
+            }
+            printf("- maiorMenorMedia: \n");
+            if(maiorMenorMedia(piNum) == 1)
+                printf("Maior, menor e media calculados com sucesso.\n");
+            free(x);    
+            break;
+            
+        case 5:
+            printf("Exercicio 5\n");
+            printf("- pilhaIgual\n\n");
+            PilhaNum* piNum2 = criaPilhaNum();
+            PilhaNum* piNum3 = criaPilhaNum();
+
+            if(piNum2 != NULL)
+                printf("Pilha criada com sucesso.\n");
+            if(piNum3 != NULL)
+                printf("Pilha criada com sucesso.\n");
+            for(int i = 0; i < 5; i++){
+                push1Num(piNum2, i);
+            }
+            for(int i = 0; i < 5; i++){
+                push1Num(piNum3, i);
+            }
+
+            printf("Pilha 1:\n");
+            imprimirPilhaNum(piNum2);
+
+            printf("Pilha 2:\n");
+            imprimirPilhaNum(piNum3);
+            
+            if(pilhaIgual(piNum2, piNum3) == 1)
+                printf("As pilhas sao iguais.\n");
+
+            liberaPilhaNum(piNum2);
+            liberaPilhaNum(piNum3);
+            break;
+        case 6:
+            printf("Exercicio 6\n");
+            printf("- pilhaStrInversa\n\n");
+            printf("Digite a quantidade de caracteres: ");
+            int nStr;
+            scanf("%d", &nStr);
+            char* str = (char*) malloc(sizeof(char)*(nStr+1));
+            if (str == NULL) {
+                printf("Erro ao alocar caracteres\n");
+                return;
+            }
+            printf("Digite a String: ");
+            scanf("%s", str);
+            PilhaStr* piStr2 = criaPilhaStr();
+            PilhaStr* piStrInv = criaPilhaStr();
+            if(piStr2 != NULL)
+                printf("Pilha criada com sucesso.\n");
+            pushNStr(piStr2, str, nStr);
+            printf("Pilha de String:\n");
+            imprimirPilhaStr(piStr2);
+            printf("- pilhaStrInversa: \n");
+            piStrInv = pilhaStrInversa(piStr2);
+            imprimirPilhaStr(piStrInv);
+            printf("- pilhaStrPalindromo: \n");
+            if(pilhaStrPalindromo(piStr2) == 1)
+                printf("A pilha e palíndromo.\n");
+            else
+                printf("A pilha nao e palíndromo.\n");
+            free(str);
+            liberaPilhaStr(piStr2);
+            break;
+        case 7:
+            printf("Exercicio 7\n");
+            printf("- pilhasNumParImpar\n\n");
+            printf("Digite a quantidade de numeros: ");
+            int nNum2;
+            PilhaNum* piNumParImpar = criaPilhaNum();
+            scanf("%d", &nNum2);
+            int* x2 = (int*) malloc(sizeof(int)*nNum2);
+            if (x2 == NULL) {
+                printf("Erro ao alocar numeros\n");
+                return;
+            }
+            for(int i = 0; i < nNum2; i++){
+                printf("Digite o numero %d: ", i+1);
+                scanf("%d", &x2[i]);
+            }
+            if(pushNNum(piNumParImpar, x2, nNum2) == 1){
+                printf("Numeros empilhados com sucesso.\n");
+                printf("Pilha de Numeros:\n");
+                imprimirPilhaNum(piNumParImpar);
+            }
+            printf("- pilhasNumParImpar: \n");
+            if(pilhasNumParImpar(piNumParImpar) == 1)
+                printf("Quantidade de pares e impares calculadas com sucesso.\n");
+            free(x2);
+            liberaPilhaNum(piNumParImpar);
+            break;
+        case 8:
+            printf("Exercicio 8\n");
+            printf("- xCy\n\n");
+            printf("Digite a cadeia de caracteres: ");
+            char str2[100];
+            scanf("%s", str2);
+
+            if(xCy(str2) == 1)
+                printf("Cadeia de caracteres valida.\n");
+            else
+                printf("Cadeia de caracteres invalida.\n");
+
+            break;
+        case 9:
+            printf("Exercicio 9\n");
+            printf("- Menu\n\n");
+            menu();
+            break;
+        case 10:
+            
+            liberaPilha(pi);
+            liberaPilhaNum(piNum);
+            liberaPilhaStr(piStr);
+            printf("Saindo...\n");
+
+            break;
+        default:
+            printf("Opcao invalida. Tente novamente.\n");
+            break;
+    }
+}
+}

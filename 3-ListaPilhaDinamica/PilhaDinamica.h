@@ -1,5 +1,12 @@
-//Arquivo PilhaDinamica.h
+/*
 
+* 3 - Lista de Pilha Dinamica - Algoritmos e Estruturas de Dados III 
+* Autores: | > Caio Macedo Lima da Cruz.....RA: 2651378
+*          | > José Carlos Seben............RA: 2651130
+
+*/
+
+//Arquivo PilhaDinamica.h - Prototipos das funções da pilha dinamica
 
 typedef struct aluno{
     int matricula;
@@ -37,7 +44,7 @@ int consultaTopoPilhaStr(PilhaStr* pi, char *str);
 PilhaStr *copiaPilhaStr(PilhaStr* pi);
 int pop1Str(PilhaStr* pi);
 int popNStr(PilhaStr* pi, int n);
-int pushNStr(PilhaStr* pi, int* x, int n);
+int pushNStr(PilhaStr* pi, char* x, int n);
 void imprimirPilhaStr(PilhaStr* pi);
 int pilhaIgualStr(PilhaStr* pi1, PilhaStr* pi2);
 int pilhaStrPalindromo(PilhaStr* pi);
@@ -62,3 +69,12 @@ int pilhaIgual(PilhaNum* pi1, PilhaNum* pi2);
 PilhaStr *pilhaStrInversa(PilhaStr* pi);
 int pilhasNumParImpar(PilhaNum* pi);
 PilhaNum *conversorBin(int dec, PilhaNum* pi);
+
+// Menu
+void menu();
+void menuPrincipal();
+void menuPilhaAluno();
+void menuPilhaStr();
+void menuPilhaNum();
+void menuPilhaEx();
+

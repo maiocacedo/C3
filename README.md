@@ -5,7 +5,7 @@ Todas as listas realizadas por **Caio Macedo Lima da Cruz** e **José Carlos Seb
 
 - [X] Lista 1 - Recursividade 
 - [X] Lista 2 - Ponteiros
-- [ ] Lista 3 - Pilha Dinâmica
+- [X] Lista 3 - Pilha Dinâmica
 - [ ] Lista 4 - Filas
 - [ ] Lista 5 - Listas
 - [ ] Lista 6 - Listas Duplamente Encadeadas

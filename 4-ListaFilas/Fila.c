@@ -1,7 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "FilaDin.h" //inclui os Prot�tipos
-//Defini��o do tipo Fila
+/*
+
+* 4- Lista - Algoritmos e Estruturas de Dados III 
+* Autores: | > Caio Macedo Lima da Cruz.....RA: 2651378
+*          | > José Carlos Seben............RA: 2651130
+
+*/
+
+#include "Fila.h";
+
 struct elemento{
     struct aluno dados;
     struct elemento *prox;

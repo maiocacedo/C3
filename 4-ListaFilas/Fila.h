@@ -18,18 +18,18 @@ struct aluno{
 typedef struct elemento* Pilha; // Pilha de Aluno
 typedef struct fila Fila;
 
-struct elementoFiPi ElemFiPi;
-struct elementoFiPi* filaFiPi;
 
-struct elementoFiFi ElemFiFi;
-struct elementoFiFi* FilaFiFi;
+typedef struct elementoFiPi ElemFiPi;
+typedef struct filaFiPi* filaFiPi;
 
-struct elementoFiFi ElemFiFi;
-struct elementoFiFi* FilaFiFi;
+typedef struct elementoFiFi ElemFiFi;
+typedef struct filaFiFi* FilaFiFi;
 
+typedef struct elementoInt ElemInt;
+typedef struct FilaInt FilaInt;
 
-struct elementoPi ElemPi;
-struct elementoPi* PilhaPi;
+typedef struct elementoPi ElemPi;
+typedef struct elementoPi* PilhaPi;
 
 
 Fila* cria_Fila();
@@ -42,3 +42,6 @@ int Fila_vazia(Fila* fi);
 int Fila_cheia(Fila* fi);
 void imprime_Fila(Fila* fi);
 int separa_fila(Fila* f1, Fila* f2, int n);
+FilaInt* ordem_crescente(FilaInt* fi);
+int nova_fila_ordem_crescente(FilaInt* f1, FilaInt* f2, FilaInt* f3);
+int reverso(Fila* f1);

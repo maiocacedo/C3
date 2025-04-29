@@ -13,6 +13,24 @@ struct elemento{
     struct elemento *prox;
 };
 typedef struct elemento Elem;
+
+struct elementoFiPi{
+    Pilha* pi;
+    struct elementoFiPi *prox;
+};typedef struct elementoFiPi ElemFiPi;
+
+struct elementoFiFi {
+    Fila* fi;
+    struct elementoFiFi *prox;
+};typedef struct elementoFiFi ElemFiFi;
+
+struct elementoPi
+{
+    Fila* fi;
+    struct elementoPi *prox;
+};typedef struct elementoPi ElemPi;
+
+  
 //Defini��o do N� Descritor da Fila
 struct fila{
     struct elemento *inicio;
@@ -114,3 +132,41 @@ void imprime_Fila(Fila* fi){
         no = no->prox;
     }
 }
+
+int separa_fila(Fila* f1, Fila* f2, int n){
+    if(f1 == NULL || f2 == NULL){
+        return 0;
+    }
+    Elem* no = f1->inicio;
+
+    while(no != NULL && no->dados.matricula != n){
+        no = no->prox;
+    }
+    if(no == NULL){
+        printf("Esse numero de matricula nao existe");
+        return 0;
+    }
+
+    // f2 começa no próximo nó depois de no
+    f2->inicio = no->prox;
+    
+    no->prox = NULL;
+
+    f1->final = no;
+
+    if (f2->inicio == NULL) {
+        f2->final = NULL;
+    } else {
+    
+        // Atualiza o fim de f2
+        Elem* aux = f2->inicio;
+        while (aux->prox != NULL) {
+            aux = aux->prox;
+        }
+        f2->final = aux;
+    }
+    
+ 
+    return 1;
+}
+

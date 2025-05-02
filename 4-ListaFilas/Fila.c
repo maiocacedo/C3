@@ -314,7 +314,110 @@ Se a fila f2 estiver vazia, atualiza o ponteiro de final da fila f2 para NULL.
 Caso contrário, percorre a fila f2 até o final e atualiza o ponteiro de final da fila f2.
 */   
 
-// exercicio 5 - furar fila
+// exercicio 3 - inverter fila
+/*Oque a atividade pedia é que atravez de operações com funções ja existentes 
+invertessemos os elementos de uma fila utilizando uma pilha como auxiliar, graças a divergencia no funionamento de filas e pilhas apenas enviando os
+dados da fila para a pilha e depois enviando novamente os dados da pilha para a fila eles ja ficariam invertidos, e foi oque foi feito na função abaixo*/
+
+//funçoes de pilha utilizadas para inverter os elementos da fila
+PilhaAux* cria_Pilha(){
+    PilhaAux* pi = (PilhaAux*) malloc(sizeof(PilhaAux));
+    if(pi != NULL){
+        pi->topo = NULL;
+        pi->qtd = 0;
+    }
+    return pi;
+}
+
+void libera_Pilha(PilhaAux* pi){
+    if(pi != NULL){
+        ElemPilha* no;
+        while(pi->topo != NULL){
+            no = pi->topo;
+            pi->topo = pi->topo->prox;
+            free(no);
+        }
+        free(pi);
+    }
+}
+
+int empilha(PilhaAux* pi, int dados){
+    if(pi == NULL)
+        return 0;
+    ElemPilha* no = (ElemPilha*) malloc(sizeof(ElemPilha));
+    if(no == NULL)
+        return 0;
+    no->dados = dados;
+    no->prox = pi->topo;
+    pi->topo = no;
+    pi->qtd++;
+    return 1;
+}
+
+int desempilha(PilhaAux* pi, int *dados){
+    if(pi == NULL)
+        return 0;
+    if(pi->topo == NULL)//pilha vazia
+        return 0;
+    ElemPilha* no = pi->topo;
+    *dados = no->dados;
+    pi->topo = pi->topo->prox;
+    free(no);
+    pi->qtd--;
+    return 1;
+}
+
+int Pilha_vazia(PilhaAux* pi){
+    if(pi == NULL)
+        return 1;
+    if(pi->topo == NULL)
+        return 1;
+    return 0;
+}
+
+int FilaInt_vazia(FilaInt* fi) {
+    if (fi == NULL) return 1;
+    return (fi->inicio == NULL);
+}
+
+void inverte_FilaInt(FilaInt* fi) {
+    if (fi == NULL || FilaInt_vazia(fi)) return;
+
+    PilhaAux* pilhaAux = cria_Pilha();
+    int elemento;
+
+    // Remove elementos da fila e empilha
+    while (!FilaInt_vazia(fi)) {
+        remove_Fila_int2(fi, &elemento);
+        empilha(pilhaAux, elemento);
+    }
+
+    // Desempilha e reinsere na fila (invertendo a ordem)
+    while (!Pilha_vazia(pilhaAux)) {
+        desempilha(pilhaAux, &elemento);
+        insere_Fila_int(fi, elemento);
+    }
+
+    libera_Pilha(pilhaAux);
+}
+
+int remove_Fila_int2(FilaInt* fi, int* elemento) {
+    if (fi == NULL || fi->inicio == NULL) // Fila vazia
+        return 0;
+
+    ElemInt* no = fi->inicio;
+    *elemento = no->dados; // Armazena o valor removido
+    fi->inicio = fi->inicio->prox;
+
+    if (fi->inicio == NULL) // Fila ficou vazia
+        fi->final = NULL;
+
+    free(no);
+    fi->qtd--;
+    return 1;
+}
+
+// exercicio 4 - furar fila
 void FuraFila(Fila* fi, struct aluno al) {
     if (fi == NULL) return;
      

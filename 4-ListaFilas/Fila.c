@@ -144,6 +144,7 @@ int insere_Fila(Fila* fi, struct aluno al){
     fi->qtd++;
     return 1;
 }
+
 int insere_Fila_int(FilaInt* fi, int al){
     if(fi == NULL)
         return 0;
@@ -303,6 +304,51 @@ Se a fila f2 estiver vazia, atualiza o ponteiro de final da fila f2 para NULL.
 Caso contrário, percorre a fila f2 até o final e atualiza o ponteiro de final da fila f2.
 */   
 
+// exercicio 5 - furar fila
+void FuraFila(Fila* fi, struct aluno al) {
+    if (fi == NULL) return;
+     
+    Elem* novo = (Elem*) malloc(sizeof(Elem));
+    if (novo == NULL) return;
+     
+    novo->dados = al;
+    if (Fila_vazia(fi)) {
+        novo->prox = novo; 
+        fi->final = novo;
+    } else {
+        novo->prox = fi->inicio;
+        fi->final->prox = novo;
+        fi->inicio = novo;
+     }
+     
+    fi->qtd++;
+ }
+
+int FuraFilaInt(FilaInt* fi, int al) {
+    if (fi == NULL) return 0;
+     
+    ElemInt* novo = (ElemInt*) malloc(sizeof(ElemInt));
+    if (novo == NULL) return 0;
+     
+    novo->dados = al;
+    if (Fila_vazia(fi)) {
+        novo->prox = novo; 
+        fi->final = novo;
+    } else {
+        novo->prox = fi->inicio;
+        fi->final->prox = novo;
+        fi->inicio = novo;
+     }
+     
+    fi->qtd++;
+    return 1;
+ }
+ 
+ /*
+Função para se aproveitar da estrutura de fila circular onde o inicio e o final se encontram 
+possibilitando inserir valores na primeria posição sem alterar os outros
+*/
+
 FilaInt* ordem_crescente(FilaInt* fi){
     if(fi == NULL)
         return NULL;
@@ -390,6 +436,15 @@ int nova_fila_ordem_crescente(FilaInt* f1, FilaInt* f2, FilaInt* f3){
     return 1;
 }
 
+/*
+Função nova_fila_ordem_crescente recebe três filas (f1, f2 e f3) como parâmetros,
+e ordena as filas f1 e f2 em ordem crescente, na fila f3.
+A função percorre as filas f1 e f2, comparando os elementos e inserindo-os na fila f3 em ordem crescente.
+Se os elementos forem iguais, ambos são inseridos na fila f3.
+A função retorna 1 se a operação for bem-sucedida, ou 0 se alguma das filas estiver vazia ou nula.
+A função ordem_crescente é chamada para ordenar as filas f1 e f2, caso ainda não estejam, antes de mesclá-las na fila f3.
+*/
+
 // exercicio 7 - reverso
 int reverso(Fila* f1){
     if(f1 == NULL)
@@ -417,14 +472,22 @@ int reverso(Fila* f1){
 }
 
 /*
-
+Função reverso inverte a ordem dos elementos da fila f1.
+A função percorre a fila f1, atualizando os ponteiros de cada nó para apontar para o nó anterior.
+Dessa forma, o primeiro nó da fila se torna o último e o último nó se torna o primeiro.
+A função atualiza o ponteiro de início da fila para o último nó visitado e o ponteiro de final da fila para o primeiro nó visitado.
+A função retorna 1 se a operação for bem-sucedida, ou 0 se a fila estiver vazia ou nula.
 */
 
 // Menu do exercício 9 
 void menu(){
+
     FilaInt* fi = NULL;
     int op = 0;
+
     while(op != 9){
+
+    printf("--------------------------------------------------\n");
     printf("Escolha uma opcao:\n");
     printf("1-Inicializa fila.\n");
     printf("2-Verifica se a fila e vazia.\n");
@@ -435,64 +498,90 @@ void menu(){
     printf("7-Testar qual fila possui mais elementos.\n");
     printf("8-Furar a Fila");
     printf("9-Sair.\n");
+    printf("--------------------------------------------------\n");
+
+    printf("Digite a opcao desejada: ");
     scanf("%d", &op);
+
     switch(op){
-        case 1:
+        case 1: // cria fila
             fi = cria_FilaInt();
             printf("Fila criada com sucesso.\n");
             break;
-        case 2:
+        case 2: // verifica se a fila está vazia 
             if (fi == NULL || fi->inicio == NULL)
                 printf("fila vazia.\n");
             break;
-        case 3:
+        case 3: // verifica se a fila está cheia
             if (fi->inicio != NULL)
                 printf("Fila cheia.\n");
             break;
-        case 4:{
+        case 4: // emfileira elemento na fila
+        {
             int x;
+            // recebe o elemento a ser enfileirado
             printf("Digite um numero inteiro: ");
             scanf("%d", &x);
+            // verifica se o elemento foi inserido com sucesso
             if(insere_Fila_int(fi, x) == 1)
                 printf("Elemento enfileirado com sucesso.\n");
             
             break;
         }
-        case 5:
+        case 5: // desenfileira elemento da fila
+            // verifica se o elemento foi desenfileirado com sucesso
             if(remove_Fila_int(fi) == 1)
                 printf("Elemento desenfileirado com sucesso.\n");
             break;
-        case 6:{
+        case 6: // lê o número no início da fila
+        {
             int xInicio;
+            // verifica se o elemento foi lido com sucesso
             if(consulta_Fila_int(fi, &xInicio) == 1)
-                printf("Elemento no inicio da fila: %d\n", xInicio);
+                printf("Elemento no inicio da fila: %d\n", xInicio); // imprime o elemento no início da fila
             break;
         }
-        case 7:{
-            FilaInt* fi2 = cria_Fila_int();
-            FilaInt* fi3 = cria_Fila_int();
+        case 7: // testar qual fila possui mais elementos
+        {
+            FilaInt* fi2 = cria_Fila_int(); // cria a fila 1
+            FilaInt* fi3 = cria_Fila_int(); // cria a fila 2
             int n;
+            // recebe o tamanho da fila 1 e os elementos
             printf("Digite um numero inteiro para tamanho da fila 1: ");
             scanf("%d", &n);
             for(int i = 0; i < n; i++){
                 int x;
+                // recebe o elemento a ser enfileirado
                 printf("Digite um numero inteiro para fila 1: ");
                 scanf("%d", &x);
-                insere_Fila_int(fi2, x);
+                insere_Fila_int(fi2, x); // insere o elemento na fila 1
             }
+            // recebe o tamanho da fila 2 e os elementos
             printf("Digite um numero inteiro para tamanho da fila 2: ");
             scanf("%d", &n);
             for(int i = 0; i < n; i++){
                 int x;
+                // recebe o elemento a ser enfileirado
                 printf("Digite um numero inteiro para fila 2: ");
                 scanf("%d", &x);
-                insere_Fila_int(fi3, x);
+                insere_Fila_int(fi3, x); // insere o elemento na fila 2
             }
+            // imprime as filas
             printf("Fila 1:\n");
             imprime_Fila_int(fi2);
             printf("Fila 2:\n");
             imprime_Fila_int(fi3);
 
+            // verifica se alguma das filas está vazia
+            if(tamanho_Fila_int(fi2) == 0 && tamanho_Fila_int(fi3) == 0){
+                printf("As filas estao vazias.\n");
+            }else if(tamanho_Fila_int(fi2) == 0){
+                printf("Fila 1 esta vazia.\n");
+            }else if(tamanho_Fila_int(fi3) == 0){
+                printf("Fila 2 esta vazia.\n");
+            }
+
+            // verifica qual fila possui mais elementos
             if(tamanho_Fila_int(fi2) > tamanho_Fila_int(fi3)){
                 printf("Fila 1 possui mais elementos.\n");
             }else if(tamanho_Fila_int(fi2) < tamanho_Fila_int(fi3)){
@@ -500,20 +589,36 @@ void menu(){
             }else
                 printf("As filas possuem o mesmo numero de elementos.\n");
             
-            libera_Fila_int(fi2);
-            libera_Fila_int(fi3);
+            libera_Fila_int(fi2); // libera a memória alocada para a fila 1
+            libera_Fila_int(fi3); // libera a memória alocada para a fila 2
             break;
         }
-        case 8:
-            // Fura fila aqui ó poggers
-            break;
-        case 9:
+        case 8: // fura fila
+        int x;
+        // recebe o elemento a ser enfileirado
+        printf("Digite um numero inteiro: ");
+        scanf("%d", &x);
+        // verifica se o elemento foi inserido com sucesso
+        if(FuraFilaInt(fi, x) == 1)
+            printf("Elemento enfileirado com sucesso, na primeira posiao.\n");
+
+        break;
+        case 9: // sair
             libera_Fila_int(fi);
             printf("Saindo...\n");
             break;
-        default:
+        default: // opção inválida
             printf("Opcao invalida. Tente novamente.\n");
             break;
     }
 }
 }
+
+/*
+Função menu exibe um menu de opções para o usuário interagir com a fila.
+O usuário pode criar uma fila, verificar se ela está vazia ou cheia, enfileirar e desenfileirar elementos,
+ler o elemento no início da fila, testar qual fila possui mais elementos e sair do programa.
+A função utiliza um loop while para continuar exevcuutando até que o usuário escolha a opção de sair (opção 9).
+e utiliza um switch para executar a opção escolhida pelo usuário.
+A função libera a memória alocada para a fila antes de sair do programa.
+*/

@@ -315,9 +315,6 @@ Caso contrário, percorre a fila f2 até o final e atualiza o ponteiro de final 
 */   
 
 // exercicio 3 - inverter fila
-/*Oque a atividade pedia é que atravez de operações com funções ja existentes 
-invertessemos os elementos de uma fila utilizando uma pilha como auxiliar, graças a divergencia no funionamento de filas e pilhas apenas enviando os
-dados da fila para a pilha e depois enviando novamente os dados da pilha para a fila eles ja ficariam invertidos, e foi oque foi feito na função abaixo*/
 
 //funçoes de pilha utilizadas para inverter os elementos da fila
 PilhaAux* cria_Pilha(){
@@ -343,10 +340,10 @@ void libera_Pilha(PilhaAux* pi){
 
 int empilha(PilhaAux* pi, int dados){
     if(pi == NULL)
-        return 0;
+    return 0;
     ElemPilha* no = (ElemPilha*) malloc(sizeof(ElemPilha));
     if(no == NULL)
-        return 0;
+    return 0;
     no->dados = dados;
     no->prox = pi->topo;
     pi->topo = no;
@@ -356,9 +353,9 @@ int empilha(PilhaAux* pi, int dados){
 
 int desempilha(PilhaAux* pi, int *dados){
     if(pi == NULL)
-        return 0;
+    return 0;
     if(pi->topo == NULL)//pilha vazia
-        return 0;
+    return 0;
     ElemPilha* no = pi->topo;
     *dados = no->dados;
     pi->topo = pi->topo->prox;
@@ -369,9 +366,9 @@ int desempilha(PilhaAux* pi, int *dados){
 
 int Pilha_vazia(PilhaAux* pi){
     if(pi == NULL)
-        return 1;
+    return 1;
     if(pi->topo == NULL)
-        return 1;
+    return 1;
     return 0;
 }
 
@@ -382,45 +379,50 @@ int FilaInt_vazia(FilaInt* fi) {
 
 void inverte_FilaInt(FilaInt* fi) {
     if (fi == NULL || FilaInt_vazia(fi)) return;
-
+    
     PilhaAux* pilhaAux = cria_Pilha();
     int elemento;
-
+    
     // Remove elementos da fila e empilha
     while (!FilaInt_vazia(fi)) {
         remove_Fila_int2(fi, &elemento);
         empilha(pilhaAux, elemento);
     }
-
+    
     // Desempilha e reinsere na fila (invertendo a ordem)
     while (!Pilha_vazia(pilhaAux)) {
         desempilha(pilhaAux, &elemento);
         insere_Fila_int(fi, elemento);
     }
-
+    
     libera_Pilha(pilhaAux);
 }
 
 int remove_Fila_int2(FilaInt* fi, int* elemento) {
     if (fi == NULL || fi->inicio == NULL) // Fila vazia
-        return 0;
-
+    return 0;
+    
     ElemInt* no = fi->inicio;
     *elemento = no->dados; // Armazena o valor removido
     fi->inicio = fi->inicio->prox;
-
+    
     if (fi->inicio == NULL) // Fila ficou vazia
-        fi->final = NULL;
-
+    fi->final = NULL;
+    
     free(no);
     fi->qtd--;
     return 1;
 }
+/*
+Oque a atividade pedia é que atravez de operações com funções ja existentes 
+invertessemos os elementos de uma fila utilizando uma pilha como auxiliar, graças a divergencia no funionamento de filas e pilhas apenas enviando os
+dados da fila para a pilha e depois enviando novamente os dados da pilha para a fila eles ja ficariam invertidos, e foi oque foi feito na função abaixo
+*/
 
 // exercicio 4 - furar fila
 void FuraFila(Fila* fi, struct aluno al) {
     if (fi == NULL) return;
-     
+    
     Elem* novo = (Elem*) malloc(sizeof(Elem));
     if (novo == NULL) return;
      
@@ -464,25 +466,29 @@ Função para se aproveitar da estrutura de fila circular onde o inicio e o fina
 possibilitando inserir valores na primeria posição sem alterar os outros
 */
 
-FilaInt* ordem_crescente(FilaInt* fi){
+int ordem_crescente(FilaInt* fi){
     if(fi == NULL)
-        return NULL;
+        return 0;
     if(fi->inicio == NULL)//fila vazia
-        return NULL;
+        return 0;
     ElemInt* no = fi->inicio; // nó auxiliar para percorrer a fila
+    ElemInt* ant = NULL; // nó auxiliar para armazenar o nó anterior
     int j = 1;
     while (j != 0)
     {
+        j=0;
+        no = fi->inicio; // reinicia o nó auxiliar para percorrer a fila
         if(no != NULL){
-            if(no->dados > no->prox->dados){
-                // troca os dados dos nós
-                int temp = no->dados;
-                no->dados = no->prox->dados;
-                no->prox->dados = temp;
+            while (no->prox != ant) {
+                if (no->dados > no->prox->dados) {
+                    int temp = no->dados;
+                    no->dados = no->prox->dados;
+                    no->prox->dados = temp;
+                    j = 1;
+                }
+                no = no->prox;
             }
-            no = no->prox;
-            j = 1; // reinicia o loop
-
+            ant = no; // atualiza o nó anterior
         }
         else{
             break; // fim da fila
@@ -490,7 +496,7 @@ FilaInt* ordem_crescente(FilaInt* fi){
     }
     
 
-    return fi;
+    return 1;
 }
 
 // exercicio 6 - ordem crescente
@@ -505,34 +511,39 @@ int nova_fila_ordem_crescente(FilaInt* f1, FilaInt* f2, FilaInt* f3){
     
     ordem_crescente(f1); // ordena a fila f1
     ordem_crescente(f2); // ordena a fila f2
+    
+    printf("Fila 1 ordenada:\n");
+    imprime_Fila_int(f1); // imprime a fila f1 ordenada
+    printf("Fila 2 ordenada:\n");
+    imprime_Fila_int(f2); // imprime a fila f2 ordenada
 
     ElemInt* no = f1->inicio; // nó auxiliar para percorrer a fila
     ElemInt* no2 = f2->inicio; // nó auxiliar para percorrer a fila
 
     while(no != NULL && no2 != NULL){
-
+        
         if(no->dados > no2->dados){
             // troca os dados dos nós
             insere_Fila_int(f3, no2->dados);
             no2 = no2->prox;
-            f3->qtd++;
+            
         }
         
         else if(no->dados < no2->dados){
             // troca os dados dos nós
             insere_Fila_int(f3, no->dados);
             no = no->prox;
-            f3->qtd++;
+            
         }
         
         else{
             // Quando os dados são iguais, insere ambos em f3
             insere_Fila_int(f3, no->dados);
             no = no->prox;
-            f3->qtd++;
+            
             insere_Fila_int(f3, no2->dados);
             no2 = no2->prox;
-            f3->qtd++;
+            
         }
 
         
@@ -594,7 +605,7 @@ A função atualiza o ponteiro de início da fila para o último nó visitado e 
 A função retorna 1 se a operação for bem-sucedida, ou 0 se a fila estiver vazia ou nula.
 */
 
-// Menu do exercício 9 
+// Menu do exercício 8 
 void menu(){
 
     FilaInt* fi = NULL;

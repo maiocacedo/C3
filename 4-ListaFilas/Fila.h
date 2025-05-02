@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h>    
 
 struct aluno{
     int matricula;
@@ -38,7 +39,7 @@ Fila* cria_Fila();
 void libera_Fila(Fila* fi);
 int consulta_Fila(Fila* fi, struct aluno *al);
 int insere_Fila(Fila* fi, struct aluno al);
-int remove_Fila(Fila* fi, int* elemento);
+int remove_Fila(Fila* fi);
 int tamanho_Fila(Fila* fi);
 int Fila_vazia(Fila* fi);
 int Fila_cheia(Fila* fi);
@@ -55,7 +56,7 @@ int tamanho_Fila_int(FilaInt* fi);
 int Fila_vazia_int(FilaInt* fi);
 void imprime_Fila_int(FilaInt* fi);
 int FuraFilaInt(FilaInt* fi, int al);
-FilaInt* ordem_crescente(FilaInt* fi);
+int ordem_crescente(FilaInt* fi);
 int nova_fila_ordem_crescente(FilaInt* f1, FilaInt* f2, FilaInt* f3);
 
 int reverso(FilaInt* f1);

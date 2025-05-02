@@ -38,7 +38,7 @@ Fila* cria_Fila();
 void libera_Fila(Fila* fi);
 int consulta_Fila(Fila* fi, struct aluno *al);
 int insere_Fila(Fila* fi, struct aluno al);
-int remove_Fila(Fila* fi);
+int remove_Fila(Fila* fi, int* elemento);
 int tamanho_Fila(Fila* fi);
 int Fila_vazia(Fila* fi);
 int Fila_cheia(Fila* fi);
@@ -57,3 +57,26 @@ int FuraFilaInt(FilaInt* fi, int al);
 FilaInt* ordem_crescente(FilaInt* fi);
 int nova_fila_ordem_crescente(FilaInt* f1, FilaInt* f2, FilaInt* f3);
 int reverso(Fila* f1);
+
+//atividade 3:
+typedef struct elementoPilha {
+    int dados;
+    struct elementoPilha *prox;
+} ElemPilha;
+
+typedef struct {
+    ElemPilha *topo;
+    int qtd;
+} PilhaAux;
+
+// Funções de pilhas utilizadas para inverter os elementos da fila
+PilhaAux* cria_Pilha();
+void libera_Pilha(PilhaAux* pi);
+int empilha(PilhaAux* pi, int dados);
+int desempilha(PilhaAux* pi, int *dados);
+int Pilha_vazia(PilhaAux* pi);
+
+// Função para inverter a fila com a pilha
+int FilaInt_vazia(FilaInt* fi);
+void inverte_FilaInt(FilaInt* fi);
+int remove_Fila_int2(FilaInt* fi, int *elemento);

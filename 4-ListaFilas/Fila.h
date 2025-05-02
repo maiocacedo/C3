@@ -58,3 +58,5 @@ int FuraFilaInt(FilaInt* fi, int al);
 FilaInt* ordem_crescente(FilaInt* fi);
 int nova_fila_ordem_crescente(FilaInt* f1, FilaInt* f2, FilaInt* f3);
 int reverso(FilaInt* f1);
+
+void menu();

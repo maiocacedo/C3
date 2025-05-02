@@ -244,9 +244,9 @@ void imprime_Fila_int(FilaInt* fi){
     if(fi == NULL)
         return;
     ElemInt* no = fi->inicio;
+    int i = 1;
     while(no != NULL){
-        int i = 1;
-        printf(" [%d] %d\n",i,no->dados);
+        printf(" [%d] %d\n", i,no->dados);
         no = no->prox;
         i++;
     }
@@ -299,7 +299,6 @@ int separa_fila(Fila* f1, Fila* f2, int n){
         f2->final = aux;
         f1->qtd = f1->qtd - f2->qtd; // atualiza a quantidade de elementos na fila f1
     }
- 
     return 1;
 }
 
@@ -333,6 +332,7 @@ void FuraFila(Fila* fi, struct aluno al) {
      }
      
     fi->qtd++;
+    free(novo);
  }
 
 int FuraFilaInt(FilaInt* fi, int al) {
@@ -350,8 +350,9 @@ int FuraFilaInt(FilaInt* fi, int al) {
         fi->final->prox = novo;
         fi->inicio = novo;
      }
-     
+    
     fi->qtd++;
+    free(novo);
     return 1;
  }
  
@@ -507,7 +508,7 @@ void menu(){
     printf("5-Desenfileira elemento da fila.\n");
     printf("6-Le o número no inicio da fila.\n");
     printf("7-Testar qual fila possui mais elementos.\n");
-    printf("8-Furar a Fila");
+    printf("8-Furar a Fila\n");
     printf("9-Sair.\n");
     printf("--------------------------------------------------\n");
 
@@ -612,12 +613,15 @@ void menu(){
         scanf("%d", &x);
         // verifica se o elemento foi inserido com sucesso
         if(FuraFilaInt(fi, x) == 1)
-            printf("Elemento enfileirado com sucesso, na primeira posiao.\n");
+            printf("Elemento enfileirado com sucesso, na primeira posicao.\n");
+        imprime_Fila_int(fi); // imprime a fila
 
         break;
         }
         case 9: // sair
+            // libera a memória alocada para a fila
             libera_Fila_int(fi);
+            fi = NULL; // libera a memória alocada para a fila
             printf("Saindo...\n");
             break;
         default: // opção inválida

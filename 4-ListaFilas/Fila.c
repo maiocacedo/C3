@@ -6,7 +6,7 @@
 
 */
 
-#include "Fila.h";
+#include "Fila.h"
 
 struct elemento{
     struct aluno dados;
@@ -55,11 +55,13 @@ struct filaint{
     ElemInt* final;
     int qtd;
 };typedef struct filaint FilaInt;
+
 struct filaFiPi{
     ElemFiPi*inicio;
     ElemFiPi*final;
     int qtd;
 };typedef struct filaFiPi FilaFiPi;
+
 struct filaFiFi{
     ElemFiFi*inicio;
     ElemFiFi*final;
@@ -76,6 +78,7 @@ Fila* cria_Fila(){
     }
     return fi;
 }
+
 FilaInt* cria_Fila_int(){
     FilaInt* fi = (FilaInt*) malloc(sizeof(FilaInt));
     if(fi != NULL){
@@ -210,6 +213,14 @@ int Fila_vazia(Fila* fi){
     return 0;
 }
 
+int Fila_vazia_int(FilaInt* fi){
+    if(fi == NULL)
+        return 1;
+    if(fi->inicio == NULL)
+        return 1;
+    return 0;
+}
+
 int Fila_cheia(Fila* fi){
     return 0;
 }
@@ -331,7 +342,7 @@ int FuraFilaInt(FilaInt* fi, int al) {
     if (novo == NULL) return 0;
      
     novo->dados = al;
-    if (Fila_vazia(fi)) {
+    if (Fila_vazia_int(fi)) {
         novo->prox = novo; 
         fi->final = novo;
     } else {
@@ -446,7 +457,7 @@ A função ordem_crescente é chamada para ordenar as filas f1 e f2, caso ainda 
 */
 
 // exercicio 7 - reverso
-int reverso(Fila* f1){
+int reverso(FilaInt* f1){
     if(f1 == NULL)
         return 0;
     if(f1->inicio == NULL)//fila vazia
@@ -505,7 +516,7 @@ void menu(){
 
     switch(op){
         case 1: // cria fila
-            fi = cria_FilaInt();
+            fi = cria_Fila_int();
             printf("Fila criada com sucesso.\n");
             break;
         case 2: // verifica se a fila está vazia 
@@ -594,6 +605,7 @@ void menu(){
             break;
         }
         case 8: // fura fila
+        {
         int x;
         // recebe o elemento a ser enfileirado
         printf("Digite um numero inteiro: ");
@@ -603,6 +615,7 @@ void menu(){
             printf("Elemento enfileirado com sucesso, na primeira posiao.\n");
 
         break;
+        }
         case 9: // sair
             libera_Fila_int(fi);
             printf("Saindo...\n");

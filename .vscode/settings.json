@@ -65,6 +65,7 @@
   "files.associations": {
     "stdlib.h": "c",
     "stdio.h": "c",
-    "fila.h": "c"
+    "fila.h": "c",
+    "pilhadinamica.h": "c"
   }
 }

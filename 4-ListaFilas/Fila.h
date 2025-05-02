@@ -21,17 +21,17 @@ typedef struct fila Fila;
 
 // Estruras do exercício 2
 typedef struct elementoFiPi ElemFiPi; // Elemento fila de pilha
-typedef struct filaFiPi* filaFiPi; // Fila de pilha
+typedef struct filaFiPi filaFiPi; // Fila de pilha
 
 typedef struct elementoFiFi ElemFiFi; // Elemento fila de filas
-typedef struct filaFiFi* FilaFiFi;  // Fila de filas
+typedef struct filaFiFi FilaFiFi;  // Fila de filas
 
 typedef struct elementoPi ElemPi;
 typedef struct elementoPi* PilhaPi;
 
 // Fila de inteiros
 typedef struct elementoInt ElemInt; // Elemento fila de inteiros
-typedef struct FilaInt FilaInt; // Fila de inteiros
+typedef struct filaint FilaInt; // Fila de inteiros
 
 // funções para fila de alunos
 Fila* cria_Fila();
@@ -52,11 +52,13 @@ int consulta_Fila_int(FilaInt* fi, int *al);
 int insere_Fila_int(FilaInt* fi, int al);
 int remove_Fila_int(FilaInt* fi);
 int tamanho_Fila_int(FilaInt* fi);
+int Fila_vazia_int(FilaInt* fi);
 void imprime_Fila_int(FilaInt* fi);
 int FuraFilaInt(FilaInt* fi, int al);
 FilaInt* ordem_crescente(FilaInt* fi);
 int nova_fila_ordem_crescente(FilaInt* f1, FilaInt* f2, FilaInt* f3);
-int reverso(Fila* f1);
+
+int reverso(FilaInt* f1);
 
 //atividade 3:
 typedef struct elementoPilha {
@@ -80,3 +82,6 @@ int Pilha_vazia(PilhaAux* pi);
 int FilaInt_vazia(FilaInt* fi);
 void inverte_FilaInt(FilaInt* fi);
 int remove_Fila_int2(FilaInt* fi, int *elemento);
+
+void menu();
+

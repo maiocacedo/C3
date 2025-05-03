@@ -413,6 +413,9 @@ int remove_Fila_int2(FilaInt* fi, int* elemento) {
     fi->qtd--;
     return 1;
 }
+
+//funçoes para demonstração de funcinamento da atividade 3
+
 /*
 Oque a atividade pedia é que atravez de operações com funções ja existentes 
 invertessemos os elementos de uma fila utilizando uma pilha como auxiliar, graças a divergencia no funionamento de filas e pilhas apenas enviando os
@@ -497,6 +500,82 @@ int ordem_crescente(FilaInt* fi){
     
 
     return 1;
+}
+
+// exercicio 5 - Pista de Decolagem
+/*A logica por tras da atividade fiz como se foce uma brincadeira onde voce tem sua pista de decolagems 
+uma fila e alguns avioes nela, voce pode liberar o primeiro aviao para decolar e depois o adicionar novamente como utimo
+da fila seguindo as operacoes de filas, alem disso voce pode visualisar todos os integrantes de fila ou se quiser apenas um
+o primeiro em especifico, isso utilizando operacoes padroes de controle de fila*/
+FilaAviao* cria_Fila_Aviao(){
+    FilaAviao* fi = (FilaAviao*) malloc(sizeof(FilaAviao));
+    if(fi != NULL){
+        fi->final = NULL;
+        fi->inicio = NULL;
+        fi->qtd = 0;
+    }
+    return fi;
+}
+
+int insere_Fila_Aviao(FilaAviao* fi, Aviao av){
+    if(fi == NULL)
+        return 0;
+    ElemAviao *no = (ElemAviao*) malloc(sizeof(ElemAviao));
+    if(no == NULL)
+        return 0;
+    no->dados = av;
+    no->prox = NULL;
+    if(fi->final == NULL)//fila vazia
+        fi->inicio = no;
+    else
+        fi->final->prox = no;
+    fi->final = no;
+    fi->qtd++;
+    return 1;
+}
+
+int remove_Fila_Aviao(FilaAviao* fi, Aviao* av) {
+    if (fi == NULL || fi->inicio == NULL)
+        return 0;
+
+    ElemAviao* no = fi->inicio;
+    *av = no->dados;
+    fi->inicio = fi->inicio->prox;
+
+    if (fi->inicio == NULL)
+        fi->final = NULL;
+    free(no); 
+    fi->qtd--;
+    return 1; 
+}
+
+void imprime_Fila_Aviao(FilaAviao* fi) {
+    if (fi == NULL || fi->inicio == NULL) {
+        printf("Fila vazia!\n");
+        return;
+    }
+    
+    ElemAviao* no = fi->inicio;
+    int posicao = 1;
+    while (no != NULL) {
+        printf("\nAviao %d:\n", posicao);
+        printf("Modelo: %s\n", no->dados.modelo);
+        printf("Companhia: %s\n", no->dados.comp);
+        no = no->prox;
+        posicao++;
+    }
+}
+
+void imprime_Fila_Primeiro_Aviao(FilaAviao* fi) {
+    if (fi == NULL || fi->inicio == NULL) {
+        printf("Fila vazia!\n");
+        return;
+    }
+
+    ElemAviao* no = fi->inicio;
+    printf("Aviao 1:\n");
+    printf("Modelo: %s\n", no->dados.modelo);
+    printf("Companhia: %s\n", no->dados.comp);
 }
 
 // exercicio 6 - ordem crescente

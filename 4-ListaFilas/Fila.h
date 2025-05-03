@@ -86,3 +86,29 @@ int remove_Fila_int2(FilaInt* fi, int *elemento);
 
 void menu();
 
+//Struct para a atividade 5
+#define TAM_MODELO 50
+#define TAM_COMP 50
+
+typedef struct {
+    char modelo[TAM_MODELO];
+    char comp[TAM_COMP];
+} Aviao;
+
+typedef struct elementoAviao {
+    Aviao dados;
+    struct elementoAviao* prox;
+} ElemAviao;
+
+typedef struct {
+    ElemAviao* inicio;
+    ElemAviao* final;
+    int qtd;
+} FilaAviao;
+
+//funções para a fila de aviões
+FilaAviao* cria_Fila_Aviao();
+int insere_Fila_Aviao(FilaAviao* fi, Aviao av);
+int remove_Fila_Aviao(FilaAviao* fi, Aviao* av);
+void imprime_Fila_Aviao(FilaAviao* fi);
+void imprime_Fila_Primeiro_Aviao(FilaAviao* fi);

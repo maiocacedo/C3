@@ -112,3 +112,4 @@ int insere_Fila_Aviao(FilaAviao* fi, Aviao av);
 int remove_Fila_Aviao(FilaAviao* fi, Aviao* av);
 void imprime_Fila_Aviao(FilaAviao* fi);
 void imprime_Fila_Primeiro_Aviao(FilaAviao* fi);
+void libera_Fila_Aviao(FilaAviao* fi);

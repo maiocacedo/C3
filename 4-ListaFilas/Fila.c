@@ -503,10 +503,7 @@ int ordem_crescente(FilaInt* fi){
 }
 
 // exercicio 5 - Pista de Decolagem
-/*A logica por tras da atividade fiz como se foce uma brincadeira onde voce tem sua pista de decolagems 
-uma fila e alguns avioes nela, voce pode liberar o primeiro aviao para decolar e depois o adicionar novamente como utimo
-da fila seguindo as operacoes de filas, alem disso voce pode visualisar todos os integrantes de fila ou se quiser apenas um
-o primeiro em especifico, isso utilizando operacoes padroes de controle de fila*/
+
 FilaAviao* cria_Fila_Aviao(){
     FilaAviao* fi = (FilaAviao*) malloc(sizeof(FilaAviao));
     if(fi != NULL){
@@ -577,6 +574,24 @@ void imprime_Fila_Primeiro_Aviao(FilaAviao* fi) {
     printf("Modelo: %s\n", no->dados.modelo);
     printf("Companhia: %s\n", no->dados.comp);
 }
+
+void libera_Fila_Aviao(FilaAviao* fi) {
+    if (fi != NULL) {
+        ElemAviao* no;
+        while (fi->inicio != NULL) {
+            no = fi->inicio;
+            fi->inicio = fi->inicio->prox;
+            free(no);
+        }
+        free(fi);
+    }
+}
+
+/*A logica por tras da atividade fiz como se foce uma brincadeira onde voce tem sua pista de decolagems 
+uma fila e alguns avioes nela, voce pode liberar o primeiro aviao para decolar e depois o adicionar novamente como utimo
+da fila seguindo as operacoes de filas, alem disso voce pode visualisar todos os integrantes de fila ou se quiser apenas um
+o primeiro em especifico, isso utilizando operacoes padroes de controle de fila*/
+
 
 // exercicio 6 - ordem crescente
 int nova_fila_ordem_crescente(FilaInt* f1, FilaInt* f2, FilaInt* f3){

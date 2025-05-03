@@ -73,9 +73,10 @@ int main() {
         imprime_Fila_Primeiro_Aviao(fi); // imprime os dados do primeiro avião da fila de espera
 
         libera_Fila_Aviao(fi);
-        fi = NULL; 
+
 
         libera_Fila_int(fila);
-        fila = NULL; 
-    return 0;
+
+
+        return 0;
 }

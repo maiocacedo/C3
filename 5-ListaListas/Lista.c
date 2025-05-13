@@ -37,7 +37,7 @@ int insere_lista_final(Lista* li, struct aluno al){
         return 0;
     no->dados = al;
     no->prox = NULL;
-    if((*li) == NULL){//lista vazia: insere in�cio
+    if((*li) == NULL){//lista vazia: insere inicio
         *li = no;
     }else{
         Elemento *aux;
@@ -70,7 +70,7 @@ int insere_lista_ordenada(Lista* li, struct aluno al){
     if(no == NULL)
         return 0;
     no->dados = al;
-    if((*li) == NULL){//lista vazia: insere in�cio
+    if((*li) == NULL){//lista vazia: insere inicio
         no->prox = NULL;
         *li = no;
         return 1;
@@ -183,4 +183,114 @@ void imprime_lista(Lista* li){
 
         no = no->prox;
     }
+
 }
+
+// Exercicio 2
+
+// Remove elemento da lista recursivamente
+int remove_lista_rec(Lista* li, int mat){
+    if(li == NULL) return 0;
+
+    if(*li == NULL) return 0; // lista vazia
+
+    Elemento *no = *li;
+
+    if(no->dados.matricula == mat){
+        *li = no->prox;
+        free(no);
+        return 1;
+    }
+    
+    return remove_lista_rec(&((*li)->prox), mat);
+}
+
+// Lista para comparar duas listas recursivamente
+int lista_ingual_rec(Lista* li1, Lista* li2){
+    if(li1 == NULL || li2 == NULL) return 0;
+    if(*li1 == NULL && *li2 == NULL) return 1;
+    if(*li1 == NULL || *li2 == NULL) return 0;
+
+    if ((*li1)->dados.matricula == (*li2)->dados.matricula){
+        return lista_ingual_rec(&((*li1)->prox), &((*li2)->prox));
+    }
+
+    return 0;
+}
+
+// Exercicio 3
+int insere_lista_pos(Lista* li, struct aluno al, int pos){
+    if(li == NULL || tamanho_lista(li)+1 < pos) return 0;
+
+    else if(pos == 1 || (*li) == NULL) return insere_lista_inicio(li, al);
+    
+    Elemento *no;
+    no = (Elemento*) malloc(sizeof(Elemento));
+    if(no == NULL) return 0;
+    no->dados = al;
+
+    Elemento *aux = *li;
+    for(int i = 1; i<pos-1; i++){
+        aux = aux->prox;
+    }
+        
+    no->prox = aux->prox;
+    aux->prox = no;
+
+    return 1;   
+}
+
+// Exercicio 5
+// Remove elementos com certa matricula da lista recursivamente
+int remove_toda_lista_rec(Lista* li, int mat){
+    if(li == NULL) return 0;
+
+    if(*li == NULL) return 1; // lista vazia
+
+    Elemento *no = *li;
+
+    if(no->dados.matricula == mat){
+        *li = no->prox;
+        free(no);
+        return remove_toda_lista_rec(li, mat);
+    }
+    
+    return remove_toda_lista_rec(&((*li)->prox), mat);
+}
+
+// Remove elementos com certa matricula da lista 
+int remove_toda_lista(Lista* li, int mat){
+    if(li == NULL) return 0;
+
+    if(*li == NULL) return 0; // lista vazia
+
+    while(*li != NULL && (*li)->dados.matricula == mat){
+        Elemento *no = *li;
+        *li = (*li) -> prox;
+        free(no);
+    }
+
+    if(*li == NULL) return 1; // lista vazia
+
+    Elemento *ant = *li;
+    Elemento *no = ant->prox;
+
+    while(no != NULL){
+
+        if(no->dados.matricula == mat){
+            ant->prox = no->prox;
+            free(no);
+            no = ant->prox;
+        }
+
+        else{
+            ant = no;
+            no = no->prox;
+        }
+}
+    return 1;
+    
+}
+
+// Exercício 7
+

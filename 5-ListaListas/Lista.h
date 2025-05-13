@@ -1,4 +1,4 @@
-//Arquivo ListaDinEncad.h
+//Arquivo Lista.h
 
 struct aluno{
     int matricula;
@@ -20,4 +20,7 @@ int tamanho_lista(Lista* li);
 int lista_vazia(Lista* li);
 int lista_cheia(Lista* li);
 void imprime_lista(Lista* li);
+int remove_lista_rec(Lista* li, int mat);
+int lista_ingual_rec(Lista* li1, Lista* li2);
+int insere_lista_pos(Lista* li, struct aluno al, int pos);
 

@@ -6,6 +6,11 @@ struct aluno{
     float n1,n2,n3;
 };
 
+struct elemento{
+    struct aluno dados;
+    struct elemento *prox;
+};
+typedef struct elemento Elemento;
 typedef struct elemento* Lista;
 
 Lista* cria_lista();
@@ -20,7 +25,15 @@ int tamanho_lista(Lista* li);
 int lista_vazia(Lista* li);
 int lista_cheia(Lista* li);
 void imprime_lista(Lista* li);
-int remove_lista_rec(Lista* li, int mat);
-int lista_ingual_rec(Lista* li1, Lista* li2);
-int insere_lista_pos(Lista* li, struct aluno al, int pos);
+
+int remove_lista_rec(Lista* li, int mat); // Exercício 2
+int lista_ingual_rec(Lista* li1, Lista* li2); // Exercício 2
+int insere_lista_pos(Lista* li, struct aluno al, int pos); // Exercício 3 
+
+int remove_toda_lista_rec(Lista* li, int mat); // Exercício 5
+int remove_toda_lista(Lista* li, int mat); // Exercício 5
+
+int remove_repetido_lista(Lista* li); // Exercício 7
+
+int Troca(Lista* li, Elemento* p ); // Exercício 9
 

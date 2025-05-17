@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Lista.h" //inclui os Prot�tipos
+#include "Lista.h"
 
 // Defini��o do tipo lista
-struct elemento
-{
-    struct aluno dados;
-    struct elemento *prox;
-};
-typedef struct elemento Elemento;
+//struct elemento
+//{
+//    struct aluno dados;
+//    struct elemento *prox;
+//};
+//typedef struct elemento Elemento;
 
 Lista *cria_lista()
 {
@@ -436,6 +436,7 @@ será trocado pelo seu proximo elemento. É armazenado o elemento anterior e o
 proximo do elemento p, para que os ponteiros sejam todos tratados da maneira correta. 
 A troca é feita substituindo o o atual pelo proximo, com auxilio do anterior do atual.
 */
+
 // exercicio 1) A.:
 /*Resolução: É uma função bem simples que foi elaborada apenas
 reaproveitando as funções ja existentes, onde o funcionamento dele vai

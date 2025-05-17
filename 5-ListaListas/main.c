@@ -187,6 +187,7 @@ int main(){
     imprime_lista(lista_resultado);
 
     libera_lista(lista_floats);
+    libera_lista(lista_resultado);
     libera_lista(li);
     libera_lista(li2);
     libera_lista(li3);

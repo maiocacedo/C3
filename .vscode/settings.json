@@ -66,6 +66,7 @@
     "stdlib.h": "c",
     "stdio.h": "c",
     "fila.h": "c",
-    "pilhadinamica.h": "c"
+    "pilhadinamica.h": "c",
+    "listasdupla.h": "c"
   }
 }

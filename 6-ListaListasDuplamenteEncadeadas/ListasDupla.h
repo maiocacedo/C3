@@ -18,5 +18,11 @@ int tamanho_lista(Lista* li);
 int lista_vazia(Lista* li);
 void imprime_lista(Lista* li);
 
+//Exercicio 1.:
+int remove_lista_Pmat(Lista* li, int mat);
+
 //Exercicio 2.:
 int insere_lista_ordenada(Lista *li, struct aluno al);
+
+//Exercicio 3.:
+int conta_lista_nota(Lista* li, int n1);

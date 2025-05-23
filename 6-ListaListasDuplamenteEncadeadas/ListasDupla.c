@@ -15,7 +15,7 @@ struct fila{
 struct nodesc{
     struct fila *ini;
     struct fila *fim;
-}; 
+}; typedef struct nodesc *noDesc;
 
 //Defini��o do tipo lista
 struct elemento{
@@ -348,6 +348,11 @@ int percorre_lista_circular(Lista* li){
     return OK;
 }
 
+/*
+
+*/
+
+
 // EXERCICIO 5:
 
 // Função para inicializar no decritor.
@@ -365,11 +370,53 @@ int inicializa_noDesc(noDesc *no){
 }
 
 // Função para enfileiramento em filas, utilizando no descritor
-int enfileirar(noDesc *desc, int elem){
+int enfileirar(noDesc desc, int elem){
+    if(desc == NULL) return ERR;
 
+    Fila *no = malloc(sizeof *no);
+    if(no == NULL) return ERR;
+
+    no->info = elem; // elemento a ser inserido
+    no->prox = NULL; // proximo elemento
+    no->ant = NULL; // elemento anterior
+
+    if(desc->ini == NULL){
+        // adiciona o primeiro elemento
+        desc->ini = no; 
+        desc->fim = no; 
+        return OK;
+
+    } else{
+
+        desc->fim->prox = no; // proximo do ultimo elemento aponta para o novo
+        no->ant = desc->fim; // ant do novo aponta para o ultimo
+        desc->fim = no; // novo elemento se torna o ultimo
+
+        return OK;
+    }
 }
 
 // Função para desenfileiramento em filas, utilizando no descritor
-int desenfileirar(noDesc *desc, int *elem){
-    
+int desenfileirar(noDesc desc, int *elem){
+
+    if(desc == NULL) return ERR;
+
+    Fila *no = desc->ini;
+    if(no == NULL) return ERR;
+
+    *elem = no->info; // elemento que será retirado
+
+    desc->ini = no->prox; // novo primeiro elemento
+
+    if (desc->ini == NULL) desc->fim = NULL;
+    else{
+        desc->ini->ant = NULL; // removendo o primeiro elemento
+    }
+
+    free(no);
+    return OK;
 }
+
+/*
+
+*/

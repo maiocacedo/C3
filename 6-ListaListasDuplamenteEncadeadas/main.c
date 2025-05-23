@@ -45,8 +45,8 @@ int main(){
     imprime_lista(li);
 
     libera_lista(li);
-
-    system("pause");
+    li = cria_lista();
+    system("pause") ;
 
     //Exercicio 2.:
     printf("\nExercicio 2: Lista Ordenada \n\n");

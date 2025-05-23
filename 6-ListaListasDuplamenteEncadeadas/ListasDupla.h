@@ -35,7 +35,7 @@ int percorre_lista_circular(Lista* li);
 
 // Exercicio 5.:
 
-typedef struct nodesc *noDesc;
+// typedef struct nodesc *noDesc;
 
 int inicializa_noDesc(noDesc *no);
 int enfileirar(noDesc *desc, int elem);

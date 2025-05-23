@@ -41,12 +41,13 @@ int insere_lista_circular_final(Lista* li, struct aluno al);
 int remove_lista_circular_inicio(Lista* li);
 int remove_lista_circular_final(Lista* li);
 int percorre_lista_circular(Lista* li);
+void libera_lista_circular(Lista* li);
 
 // Exercicio 5.:
 
-// typedef struct nodesc *noDesc;
-
+typedef struct nodesc *noDesc;
 int inicializa_noDesc(noDesc *no);
 int enfileirar(noDesc *desc, int elem);
 int desenfileirar(noDesc *desc, int *elem);
+void imprime_fila(noDesc *desc);
 

@@ -1,3 +1,4 @@
+// ListaDupla.c
 #include <stdio.h>
 #include <stdlib.h>
 #include "ListasDupla.h"
@@ -15,7 +16,7 @@ struct fila{
 struct nodesc{
     struct fila *ini;
     struct fila *fim;
-}; typedef struct nodesc *noDesc;
+}; 
 
 //Defini��o do tipo lista
 struct elemento{
@@ -318,10 +319,10 @@ int insere_lista_circular_inicio(Lista* li, struct aluno al){
     Elem *no = malloc(sizeof *no);
     if (no == NULL) return ERR;
 
-    no->dados = al;
+    no->dados = al; // atribui os dados ao novo nó
     
     if(*li == NULL){
-        
+        // para lista vazia
         no->prox = no;
         no->ant = no;
         *li = no;
@@ -329,11 +330,11 @@ int insere_lista_circular_inicio(Lista* li, struct aluno al){
         return OK;
     } else{
         
-        no->prox = *li;
-        no->ant = (*li)->ant;
-        (*li)->ant->prox = no;
-        (*li)->ant = no;
-        *li = no;
+        no->prox = *li; // novo nó aponta para o primeiro
+        no->ant = (*li)->ant; // novo nó aponta para o último
+        (*li)->ant->prox = no; // último aponta para o novo nó
+        (*li)->ant = no; // primeiro aponta para o novo nó
+        *li = no; // atualiza o primeiro nó para o novo nó
         
         return OK;
     }
@@ -350,15 +351,17 @@ int insere_lista_circular_final(Lista* li, struct aluno al){
     no->dados = al;
 
     if((*li) == NULL){
+        // para lista vazia
         no->prox = no;
         no->ant = no;
         *li = no;
         return OK;
     } else{
-        no->prox = *li;
-        no->ant = (*li)->ant;
-        (*li)->ant->prox = no;
-        (*li)->ant = no;
+
+        no->prox = *li; // novo nó aponta para o primeiro
+        no->ant = (*li)->ant; // novo nó aponta para o último, pelo ant
+        (*li)->ant->prox = no; // último aponta para o novo nó, pelo prox
+        (*li)->ant = no; // atualiza o último nó para o novo nó
         return OK;
     }
 }
@@ -371,6 +374,7 @@ int remove_lista_circular_inicio(Lista* li){
     Elem *no = *li;
 
     if(no->prox == no){
+        // se for o único elemento
         free(no);
         *li = NULL;
         return OK;
@@ -390,12 +394,13 @@ int remove_lista_circular_final(Lista* li){
 
     Elem *no = (*li)->ant;
     if(no->prox == no){
+        // se for o único elemento
         free(no);
         *li = NULL;
         return OK;
     } else{
-        no->prox->ant = no->ant; 
-        no->ant->prox = no->prox; 
+        no->prox->ant = no->ant; // prox do ant do ultima aponta para o novo ultimo
+        no->ant->prox = no->prox; // ant do prox do ultimo aponta para novo ultimo
         (*li)->ant = no->ant; // novo ultimo
         free(no); // libera o antigo primeiro
 
@@ -418,14 +423,35 @@ int percorre_lista_circular(Lista* li){
                                    no->dados.n3);
         printf("-------------------------------\n");
 
-        no = no->prox;
+        no = no->prox; // avança para o próximo nó
     }while(no != *li);
     
     return OK;
 }
+void libera_lista_circular(Lista* li) {
+    if (li == NULL || *li == NULL)
+        return;
+
+    Elem *atual = (*li)->prox;
+    while (atual != *li) {
+        Elem *prox = atual->prox;
+        free(atual);
+        atual = prox;
+    }
+    free(*li); // libera o nó que era o primeiro (ou o único)
+    *li = NULL;
+}
 
 /*
-
+Funções para manipulação de listas duplamente encadeadas circular.
+Lista circular é uma lista onde o último elemento aponta para o primeiro e vice-versa,
+formando um ciclo. Dessa forma, ao manipular a lista, é possível percorrê-la em ambas as direções
+sem encontrar um final. As funções de inserção e remoção foram adaptadas para lidar com essa estrutura circular.
+A função insere_lista_circular_inicio insere um novo elemento no "início" da lista circular, manipulando
+os ponteiros para manter a circularidade. A função insere_lista_circular_final faz o mesmo, mas no "final".
+A função remove_lista_circular_inicio remove o primeiro elemento da lista circular, ajustando os ponteiros
+para manter a circularidade. A função remove_lista_circular_final faz o mesmo, mas para o último elemento.
+A função percorre_lista_circular percorre a lista circular, imprimindo os dados de cada elemento.
 */
 
 
@@ -435,7 +461,7 @@ int percorre_lista_circular(Lista* li){
 int inicializa_noDesc(noDesc *no){
     if(no == NULL) return ERR; 
 
-    *no = malloc(sizeof*(*no));
+    *no = (noDesc)malloc(sizeof(struct nodesc));
 
     if(*no == NULL) return ERR; 
     
@@ -446,7 +472,7 @@ int inicializa_noDesc(noDesc *no){
 }
 
 // Função para enfileiramento em filas, utilizando no descritor
-int enfileirar(noDesc desc, int elem){
+int enfileirar(noDesc *desc, int elem){
     if(desc == NULL) return ERR;
 
     Fila *no = malloc(sizeof *no);
@@ -456,44 +482,65 @@ int enfileirar(noDesc desc, int elem){
     no->prox = NULL; // proximo elemento
     no->ant = NULL; // elemento anterior
 
-    if(desc->ini == NULL){
+    if((*desc)->ini == NULL){
         // adiciona o primeiro elemento
-        desc->ini = no; 
-        desc->fim = no; 
+        (*desc)->ini = no; 
+        (*desc)->fim = no; 
         return OK;
 
     } else{
 
-        desc->fim->prox = no; // proximo do ultimo elemento aponta para o novo
-        no->ant = desc->fim; // ant do novo aponta para o ultimo
-        desc->fim = no; // novo elemento se torna o ultimo
+        (*desc)->fim->prox = no; // proximo do ultimo elemento aponta para o novo
+        no->ant = (*desc)->fim; // ant do novo aponta para o ultimo
+        (*desc)->fim = no; // novo elemento se torna o ultimo
 
         return OK;
     }
 }
 
 // Função para desenfileiramento em filas, utilizando no descritor
-int desenfileirar(noDesc desc, int *elem){
+int desenfileirar(noDesc *desc, int *elem){
 
     if(desc == NULL) return ERR;
 
-    Fila *no = desc->ini;
+    Fila *no = (*desc)->ini;
     if(no == NULL) return ERR;
 
     *elem = no->info; // elemento que será retirado
 
-    desc->ini = no->prox; // novo primeiro elemento
+    (*desc)->ini = no->prox; // novo primeiro elemento
 
-    if (desc->ini == NULL) desc->fim = NULL;
+    if ((*desc)->ini == NULL) (*desc)->fim = NULL;
     else{
-        desc->ini->ant = NULL; // removendo o primeiro elemento
+        (*desc)->ini->ant = NULL; // removendo o primeiro elemento
     }
 
     free(no);
     return OK;
 }
 
-/*
+void imprime_fila(noDesc *desc){
+    if(desc == NULL) return ;
+    if((*desc)->ini == NULL) return ;
 
+    Fila *no = (*desc)->ini;
+
+    while(no != NULL){
+        printf("%d ", no->info);
+        no = no->prox;
+    }
+    printf("\n");
+    return;
+}
+
+
+/*
+Funções para manipulação de filas utilizando nó descritor.
+No descritor é uma estrutura que contém ponteiros para o início e o fim da fila.
+As funções de enfileiramento e desenfileiramento foram adaptadas para lidar com essa estrutura.
+A função inicializa_noDesc inicializa o nó descritor, alocando memória e definindo os ponteiros de início e fim como nulos.
+A função enfileirar adiciona um novo elemento ao final da fila, ajustando os ponteiros de início e fim conforme necessário.
+A função desenfileirar remove o primeiro elemento da fila, ajustando os ponteiros de início e fim.
+A função desenfileirar retorna o elemento removido através de um ponteiro passado como argumento.
 */
 

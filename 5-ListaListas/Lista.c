@@ -271,9 +271,8 @@ int insere_lista_pos(Lista* li, struct aluno al, int pos){
     Elemento *aux = *li;
 
     // percorre a lista até o elemento anterior ao desejado
-    for(int i = 1; i<pos-1; i++){
-        aux = aux->prox;
-    }
+    for(int i = 1; i<pos-1; i++) aux = aux->prox;
+    
     
     // insere o elemento na posição desejada
     no->prox = aux->prox;
@@ -420,10 +419,11 @@ int Troca(Lista* li, Elemento* p ){
         while(ant->prox!=p){
             ant = ant->prox;
         }
+        
         // troca o elemento p com o próximo
         ant->prox = y;
         x->prox = y->prox;
-        y->prox =x;
+        y->prox = x;
 
         }
     return 1;

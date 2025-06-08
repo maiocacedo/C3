@@ -1,4 +1,10 @@
 
+struct NO{
+    int info;
+    struct NO *esq;
+    struct NO *dir;
+};
+
 typedef struct NO* ArvBin;
 
 ArvBin* cria_ArvBin();
@@ -13,4 +19,5 @@ int consulta_ArvBin(ArvBin *raiz, int valor);
 void preOrdem_ArvBin(ArvBin *raiz);
 void emOrdem_ArvBin(ArvBin *raiz);
 void posOrdem_ArvBin(ArvBin *raiz);
+struct NO* Remove_ArvoreAtual(struct NO* atual);
 

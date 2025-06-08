@@ -2,11 +2,7 @@
 #include <stdlib.h>
 #include "Arvores.h"
 
-struct NO{
-    int info;
-    struct NO *esq;
-    struct NO *dir;
-};
+
 
 ArvBin* cria_ArvBin(){
     ArvBin* raiz = (ArvBin*) malloc(sizeof(ArvBin));
@@ -210,3 +206,43 @@ int consulta_ArvBin(ArvBin *raiz, int valor){
 
     return 0;
 }
+
+//Exercicio 5 - Remova um no
+/*Resolução: A função remove um nó especifico de uma árvore, mantendo a hierarquia correta e relações
+entre os nós. Isso é feito a partir da verificação das subarvores a esquerda, que caso seja nula, 
+considera-se que o nó direito do nó a ser removido assume seu lugar, se não, procura o maior nó 
+à esquerda, sempre atualizando o nóPai (ou nó anterior) e o no filho. Ao encontrar o nó, é verificado 
+se o noPai é diferente de atual, porque, caso ele seja, significa que o noFilho não é filho direto de atual
+o que significa que o nóFilho é o maior nó a esquerda. E então, para não perder uma possível subarvore a esquerda
+o noPai->dir irá apontar para o nóFilho->esq.  Por fim, o noFilho->dir aponta para o dir do atual, e o nó
+é liberado.*/
+struct NO* Remove_ArvoreAtual(struct NO* atual){
+    struct NO *noPai, *noFilho; 
+    if(atual == NULL) return NULL; // se o nó atual for nulo, não há nada a remover
+    // se o nó atual não tem filho esquerdo, retorna o filho direito de atual, e libera atual
+    if(atual->esq == NULL){
+        noFilho = atual->dir;
+        free(atual);
+        return noFilho;
+    }
+    // noPai é o pai de noFilho
+    noPai = atual;
+    noFilho = atual->esq;
+
+    // Encontra o maior nó na subárvore esquerda
+    while(noFilho->dir != NULL){
+        noPai = noFilho;
+        noFilho = noFilho->dir;
+    }
+    // se noPai for diferente de atual, significa que noFilho não é o filho direto de atual
+    // ou seja, noFilho é o maior nó na subárvore esquerda
+    if(noPai != atual){
+        // noPai agora aponta para o filho esquerdo de noFilho
+        noPai->dir = noFilho->esq; 
+        noFilho->esq = atual->esq; // o filho esquerdo de atual agora é o filho esquerdo de noFilho
+    }
+    noFilho->dir = atual->dir; // o filho direito de atual agora é o filho direito de noFilho
+    free(atual); // libera o nó atual
+    return noFilho; // retorna o novo nó atual (noFilho) que substitui o nó removido
+}
+

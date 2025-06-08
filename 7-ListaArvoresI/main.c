@@ -103,5 +103,36 @@ int main(){
     raiz = NULL;
     system("pause");
 
+    printf("\n\nExercicio 5 - Remova o nó\n\n");
+
+    raiz = cria_ArvBin();
+    for(i=0; i < N; i++) insere_ArvBin(raiz,dados[i]);
+
+    printf("Arvore antes da remocao:\n");
+    preOrdem_ArvBin(raiz);
+    printf("\nTotal de nos: %d\n", totalNO_ArvBin(raiz));
+
+    printf("Digite o valor do nó que deseja remover: ");
+    scanf("%d", &valor);
+
+    struct NO* atual = *raiz;
+    while (atual != NULL && atual->info != valor) {
+        if (valor < atual->info) {
+            atual = atual->esq;
+        } else {
+            atual = atual->dir;
+        }
+    }
+
+    if(Remove_ArvoreAtual(atual)) {
+        printf("No %d removido com sucesso!\n", valor);
+    } else {
+        printf("No %d nao encontrado na arvore.\n", valor);
+    }
+
+    libera_ArvBin(raiz);
+    raiz = NULL;
+    system("pause");
+    
     return 0;
 }

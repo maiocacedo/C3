@@ -1,4 +1,8 @@
-#include "ArvoreAVL.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "ArvoreAVL.h" //inclui os Prot�tipos
+
 
 struct NO{
     int info;
@@ -6,6 +10,67 @@ struct NO{
     struct NO *esq;
     struct NO *dir;
 };
+
+
+ArvBin* cria_ArvBin(){
+    ArvBin* raiz = (ArvBin*) malloc(sizeof(ArvBin));
+    if(raiz != NULL)
+        *raiz = NULL;
+    return raiz;
+}
+
+void libera_NO(struct NO* no){
+    if(no == NULL)
+        return;
+    libera_NO(no->esq);
+    libera_NO(no->dir);
+    free(no);
+    no = NULL;
+}
+
+void libera_ArvBin(ArvBin* raiz){
+    if(raiz == NULL)
+        return;
+    libera_NO(*raiz);//libera cada n�
+    free(raiz);//libera a raiz
+}
+
+int insere_ArvBin(ArvBin* raiz, int valor){
+    if(raiz == NULL)
+        return 0;
+    struct NO* novo;
+    novo = (struct NO*) malloc(sizeof(struct NO));
+    if(novo == NULL)
+        return 0;
+    novo->info = valor;
+    novo->dir = NULL;
+    novo->esq = NULL;
+
+    if(*raiz == NULL)
+        *raiz = novo;
+    else{
+        struct NO* atual = *raiz;
+        struct NO* ant = NULL;
+        while(atual != NULL){
+            ant = atual;
+            if(valor == atual->info){
+                free(novo);
+                return 0;//elemento j� existe
+            }
+
+            if(valor > atual->info)
+                atual = atual->dir;
+            else
+                atual = atual->esq;
+        }
+        if(valor > ant->info)
+            ant->dir = novo;
+        else
+            ant->esq = novo;
+    }
+    return 1;
+}
+
 
 ArvAVL* cria_ArvAVL(){
     ArvAVL* raiz = (ArvAVL*) malloc(sizeof(ArvAVL));
@@ -128,6 +193,7 @@ int consulta_ArvAVL(ArvAVL *raiz, int valor){
     return 0;
 }
 
+
 //Exercicio 4 - Rotação RR
 /*Resolução: A logica por traz da feição desta função apenas utilizei a função disponibilizada pelo professor como base
 como na função RotacaoLL faz exatamente oque esta fução precisava fazer mas para o lado contrario apenas peguei a função
@@ -143,6 +209,7 @@ void RotacaoRR(ArvAVL *raiz){
     B->altura = maior(altura_NO(B->dir),(*raiz)->altura) + 1;
     *raiz = B;
 }
+
 
 //=================================
 void RotacaoLL(ArvAVL *raiz){//LL
@@ -284,6 +351,7 @@ int remove_ArvAVL(ArvAVL *raiz, int valor){
 	return res;
 }
 
+
 //Exercicio 7 - Verifica se uma arvore é AVL ou não
 /*Resolução: Utilizando a logica ja implementada em outras funções, como na função de altura_NO utilizando para fazer
 a comparação de ser ou não AVL e depois utiliza a propria função para percorrer para a esquerda e depois para a direita
@@ -306,3 +374,26 @@ int Verifica_ArvoreAVL(ArvAVL *raiz) {
 
     return 1;
 }
+
+// Função auxiliar recursiva para trandormar uma arvore binária em AVL
+void transformaAux(struct NO *no, ArvAVL *avl){
+    if (no == NULL) return; // se o nó for nulo, retorna
+
+    insere_ArvAVL(avl, no->info); // insere o valor do nó atual na árvore AVL
+
+    transformaAux(no->esq, avl); // percorre a subárvore esquerda
+    transformaAux(no->dir, avl); // percorre a subárvore direita
+}
+
+// Exercício 8 - Função que transforma uma árvore binária em uma árvore AVL
+/**/
+ArvAVL* transforma(ArvBin *raiz){
+    ArvAVL *avl = cria_ArvAVL(); // cria uma nova árvore AVL
+
+    if(raiz == NULL || *raiz == NULL) return avl; // se a árvore binária for nula, retorna a árvore AVL vazia
+
+    transformaAux(*raiz, avl); // chama a função auxiliar para transformar a árvore binária em AVL
+
+    return avl; // retorna a árvore AVL criada
+}
+

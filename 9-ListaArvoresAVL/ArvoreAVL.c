@@ -1,6 +1,8 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "ArvoreAVL.h" //inclui os Prot�tipos
+
 
 struct NO{
     int info;
@@ -8,6 +10,7 @@ struct NO{
     struct NO *esq;
     struct NO *dir;
 };
+
 
 ArvBin* cria_ArvBin(){
     ArvBin* raiz = (ArvBin*) malloc(sizeof(ArvBin));
@@ -67,6 +70,7 @@ int insere_ArvBin(ArvBin* raiz, int valor){
     }
     return 1;
 }
+
 
 ArvAVL* cria_ArvAVL(){
     ArvAVL* raiz = (ArvAVL*) malloc(sizeof(ArvAVL));
@@ -188,6 +192,24 @@ int consulta_ArvAVL(ArvAVL *raiz, int valor){
     }
     return 0;
 }
+
+
+//Exercicio 4 - Rotação RR
+/*Resolução: A logica por traz da feição desta função apenas utilizei a função disponibilizada pelo professor como base
+como na função RotacaoLL faz exatamente oque esta fução precisava fazer mas para o lado contrario apenas peguei a função
+mantive exatamenta a mesma estrutura e inverti o lado para no fazer o balançeamento de um no que estava inconsistente do lado
+direito reajustando os nos, movendo-os para a esquerda assim consequantemente alterando a *raiz se tornando B a nova raiz*/
+void RotacaoRR(ArvAVL *raiz){
+    printf("RotacaoRR\n");
+    struct NO *B;
+    B = (*raiz)->dir;
+    (*raiz)->dir = B->esq;
+    B->esq = *raiz;
+    (*raiz)->altura = maior(altura_NO((*raiz)->dir),altura_NO((*raiz)->esq)) + 1;
+    B->altura = maior(altura_NO(B->dir),(*raiz)->altura) + 1;
+    *raiz = B;
+}
+
 
 //=================================
 void RotacaoLL(ArvAVL *raiz){//LL
@@ -329,6 +351,30 @@ int remove_ArvAVL(ArvAVL *raiz, int valor){
 	return res;
 }
 
+
+//Exercicio 7 - Verifica se uma arvore é AVL ou não
+/*Resolução: Utilizando a logica ja implementada em outras funções, como na função de altura_NO utilizando para fazer
+a comparação de ser ou não AVL e depois utiliza a propria função para percorrer para a esquerda e depois para a direita
+assim percorrendo a arvore toda e comparando os dados dela completa, inicia verificando se a arvore e vazia e se for fazia
+ela é AVL*/
+int Verifica_ArvoreAVL(ArvAVL *raiz) {
+    if (raiz == NULL || *raiz == NULL)
+        return 1;
+
+    struct NO *no = *raiz;
+    int balanceamento = altura_NO(no->esq) - altura_NO(no->dir);
+
+    if (balanceamento < -1 || balanceamento > 1) {
+        return 0;
+    }
+
+    if (!Verifica_ArvoreAVL(&(no->esq))) return 0;
+
+    if (!Verifica_ArvoreAVL(&(no->dir))) return 0;
+
+    return 1;
+}
+
 // Função auxiliar recursiva para trandormar uma arvore binária em AVL
 void transformaAux(struct NO *no, ArvAVL *avl){
     if (no == NULL) return; // se o nó for nulo, retorna
@@ -350,3 +396,4 @@ ArvAVL* transforma(ArvBin *raiz){
 
     return avl; // retorna a árvore AVL criada
 }
+

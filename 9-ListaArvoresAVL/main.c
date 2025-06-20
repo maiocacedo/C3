@@ -68,7 +68,28 @@ int main(){
         printf("\nA arvore nao e AVL\n\n");
     }
     
+    printf("\n\nExercicio 8 - Transforma bin em AVL\n");
+    
+    ArvBin* bin = cria_ArvBin();
+    int dadosB[10] = {50,25,10,5,7,3,30,20,8,15};
+    for(i=0;i<10;i++){
+        insere_ArvBin(bin,dadosB[i]);
+    }
+    
+    ArvAVL *avl2 = transforma(bin);
+    printf("\nArvore AVL:\n");
+    emOrdem_ArvAVL(avl2);
+    printf("\n\n");
+
+    if (Verifica_ArvoreAVL(avl2)){
+        printf("\nA arvore e AVL\n\n");
+    } else {
+        printf("\nA arvore nao e AVL\n\n");
+    }
+
     libera_ArvAVL(avl);
+    libera_ArvBin(bin);
+    libera_ArvAVL(avl2);
     system("pause");
 
     return 0;

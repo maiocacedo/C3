@@ -19,15 +19,6 @@ ArvBin* cria_ArvBin(){
     return raiz;
 }
 
-void libera_NO(struct NO* no){
-    if(no == NULL)
-        return;
-    libera_NO(no->esq);
-    libera_NO(no->dir);
-    free(no);
-    no = NULL;
-}
-
 void libera_ArvBin(ArvBin* raiz){
     if(raiz == NULL)
         return;
@@ -375,6 +366,13 @@ int Verifica_ArvoreAVL(ArvAVL *raiz) {
     return 1;
 }
 
+// Exercício 8 - Transforma binária em AVL
+/*
+Resolução: A função auxiliar transformaAux percorre a árvore binária recursivamente, inserindo cada valor na árvore AVL.
+A função transforma recebe uma árvore binária, cria uma nova árvore AVL e chama a função auxiliar para preencher essa árvore com os valores da árvore binária,
+realizando as modificações necessárias para que a árvore binária se torne uma nova árvore AVL seja balanceada.
+*/
+
 // Função auxiliar recursiva para trandormar uma arvore binária em AVL
 void transformaAux(struct NO *no, ArvAVL *avl){
     if (no == NULL) return; // se o nó for nulo, retorna
@@ -385,8 +383,7 @@ void transformaAux(struct NO *no, ArvAVL *avl){
     transformaAux(no->dir, avl); // percorre a subárvore direita
 }
 
-// Exercício 8 - Função que transforma uma árvore binária em uma árvore AVL
-/**/
+// Função que transforma uma árvore binária em uma árvore AVL
 ArvAVL* transforma(ArvBin *raiz){
     ArvAVL *avl = cria_ArvAVL(); // cria uma nova árvore AVL
 

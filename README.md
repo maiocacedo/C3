@@ -11,5 +11,5 @@ Todas as listas realizadas por **Caio Macedo Lima da Cruz** e **José Carlos Seb
 - [X] Lista 6 - Listas Duplamente Encadeadas
 - [X] Lista 7 - Árvores I
 - [ ] Lista 8 - Árvores Binárias
-- [ ] Lista 9 - Árvores AVL
+- [X]  Lista 9 - Árvores AVL
 - [ ] Lista 10 - Grafos

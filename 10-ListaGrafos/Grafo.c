@@ -108,6 +108,56 @@ void imprime_Grafo(Grafo *gr){
     }
 }
 
+//Exercicio 5 - Algoritmo Prim
+void Prim(Grafo* gr, int origem) {
+    if (gr == NULL || gr->eh_ponderado == 0) return;
+
+    int n = gr->nro_vertices;
+    int* visitado = (int*) calloc(n, sizeof(int));
+    int* pai = (int*) malloc(n * sizeof(int));
+    float* custo = (float*) malloc(n * sizeof(float));
+
+    for (int i = 0; i < n; i++) {
+        pai[i] = -1;
+        custo[i] = 1e9;
+    }
+    custo[origem] = 0;
+
+    for (int cont = 0; cont < n - 1; cont++) {
+        int u = -1;
+
+        for (int i = 0; i < n; i++) {
+            if (!visitado[i] && (u == -1 || custo[i] < custo[u])) u = i;
+        }
+
+        if (u == -1) break;
+        visitado[u] = 1;
+
+        for (int i = 0; i < gr->grau[u]; i++) {
+            int v = gr->arestas[u][i];
+            float peso = gr->pesos[u][i];
+
+            if (!visitado[v] && peso < custo[v]) {
+                custo[v] = peso;
+                pai[v] = u;
+            }
+        }
+    }
+
+    printf("Prim:\n");
+    float soma = 0;
+    for (int i = 0; i < n; i++) {
+        if (pai[i] != -1) {
+            printf("%d - %d (peso %.2f)\n", pai[i], i, custo[i]);
+            soma += custo[i];
+        }
+    }
+    printf("Custo: %.2f\n", soma);
+
+    free(visitado);
+    free(pai);
+    free(custo);
+}
 
 
 

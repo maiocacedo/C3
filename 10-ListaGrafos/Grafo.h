@@ -9,3 +9,5 @@ int insereAresta(Grafo* gr, int orig, int dest, int eh_digrafo, float peso);
 int removeAresta(Grafo* gr, int orig, int dest, int eh_digrafo);
 void imprime_Grafo(Grafo *gr);
 
+void Prim(Grafo* gr, int origem);
+

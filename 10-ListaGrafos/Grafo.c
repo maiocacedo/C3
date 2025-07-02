@@ -10,6 +10,113 @@ struct grafo{
     int* grau;
 };
 
+/*--------- EXERCICIO 4 ---------*/
+
+// Definição do tipo Lista (de adjacência), baseado em listas encadeadas. 
+// (verticen | peso) -> prox
+typedef struct elemento{
+    char *vertice; 
+    int peso;
+    struct elemento *prox;
+} Elemento;
+
+typedef struct elemento* Lista;
+
+// Lista de listas
+// (Lista* vertice1, Lista* vertice2, Lista* vertice3, ...)
+typedef struct{
+    Lista **vet; //vetor de listas 
+    int nos; //numero de nos no grafo
+}GrafoLista;
+
+/* 
+    Função para criar a lista de adjacência do grafo.
+*/
+GrafoLista* cria_GrafoLista(int n_nos){
+    if(n_nos <= 0) return NULL; // Verifica se o número de nós é válido
+
+    GrafoLista* gl;    
+
+    gl = (GrafoLista*) malloc(sizeof(GrafoLista));
+    if(gl == NULL) return NULL;
+
+    gl->vet = (Lista**) malloc(n_nos * sizeof(Lista*));
+    if (gl->vet == NULL) {
+        free(gl);
+        return NULL;
+    }
+
+    gl->nos = n_nos;
+
+    for(int i  = 0;i < n_nos; i++) gl->vet[i] = NULL;
+    
+    return gl;
+}
+
+/* 
+    Função para inserir aresta na lista de adjacência
+*/
+int insere_aresta_lista(GrafoLista* grafol, char *nome_v, int peso, int no){
+    if(grafol == NULL || no < 0 || no >= grafol->nos) return 0; // verifica se os parametros são válidos 
+
+    Elemento* novo = (Elemento*) malloc(sizeof(Elemento)); // Aloca memória para o novo nó
+    if(novo == NULL) return 0;
+    
+    novo->vertice = (char*) malloc(strlen(nome_v) + 1);
+
+    if (novo->vertice == NULL) {
+        free(novo);
+        return 0;
+    }
+
+    strcpy(novo->vertice, nome_v); // copia o conteúdo da string
+    novo->peso = peso; // Atribui o peso da aresta
+    novo->prox = NULL; // Inicializa o próximo como NULL
+
+    if(grafol->vet[no] == NULL) {
+        grafol->vet[no] = novo; // Se a lista estiver vazia, insere o novo nó
+    } else {
+        Elemento* atual = grafol->vet[no];
+        while(atual->prox != NULL) atual = atual->prox;
+        atual->prox = novo;
+    }
+
+    return 1;
+}
+
+/* 
+    Função para remover aresta na lista de adjacência
+*/
+int remove_aresta_lista(GrafoLista* grafol, int no, char *nome_v){
+    if(grafol == NULL || no < 0 || no >= grafol->nos) return 0;
+    if(grafol->vet[no] == NULL) return 0; // Verifica se a lista está vazia
+
+    Elemento* atual = grafol->vet[no];
+
+    Elemento* anterior = NULL;
+    while(atual != NULL && strcmp(atual->vertice, nome_v)){
+        anterior = atual;
+        atual = atual->prox;
+    }
+    
+    if(atual == NULL) return 0; // Verifica se o nó foi encontrado
+
+    if(anterior == NULL) {
+        // Se o nó a ser removido é o primeiro
+        grafol->vet[no] = atual->prox;
+    } else {
+        // Se o nó a ser removido não é o primeiro
+        anterior->prox = atual->prox;
+    }
+
+    free(atual->vertice); // Libera a memória alocada para o nome do vértice
+    free(atual); // Libera a memória alocada para o nó
+
+    return 1; // Retorna 1 se a remoção foi bem-sucedida
+}
+
+/*--------- FIM EXERCÍCIO 4 ---------*/
+
 Grafo* cria_Grafo(int nro_vertices, int grau_max, int eh_ponderado){
     Grafo *gr;
     gr = (Grafo*) malloc(sizeof(struct grafo));
@@ -159,5 +266,11 @@ void Prim(Grafo* gr, int origem) {
     free(custo);
 }
 
+int encontra_no(Grafo* gr, int no){
+
+}
 
 
+int encontra_aresta_menor(Grafo* gr, int no){
+
+}

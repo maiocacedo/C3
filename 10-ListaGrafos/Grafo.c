@@ -267,10 +267,40 @@ void Prim(Grafo* gr, int origem) {
 }
 
 int encontra_no(Grafo* gr, int no){
+    if (no < 0 || no >= gr->nro_vertices) {
+        // índice fora do intervalo [0 .. nro_vertices-1]
+        printf("Índice inválido: %d, nó não encontrado.\n", no);
+        return 0;
+    }
+    printf("No %d encontrado.\n", no);
+    // índice válido
+    return 1;
 
 }
 
+int encontra_aresta_menor_peso(Grafo* gr, int no){
+    if (gr == NULL || no < 0 || no >= gr->nro_vertices){
+        // grafo nulo ou índice fora do intervalo [0 .. nro_vertices-1]
+        printf("Grafo inválido ou índice fora do intervalo: %d.\n", no);
+        return 0;
+    }
 
-int encontra_aresta_menor(Grafo* gr, int no){
+    float menor_peso = 1e9;
+    int aresta = -1;
 
+    for (int i = 0; i < gr->grau[no]; i++){
+        if (gr->pesos[no][i] < menor_peso){
+            menor_peso = gr->pesos[no][i];
+            aresta = gr->arestas[no][i];
+        }
+    }
+
+    if (aresta != -1){
+        printf("Aresta de menor peso do nó %d: %d (peso %.2f)\n", no, aresta, menor_peso);
+    } else {
+        printf("Nó %d não possui arestas.\n", no);
+    }
+
+    return 1;
 }
+

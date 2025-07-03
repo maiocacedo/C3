@@ -20,11 +20,11 @@ typedef struct elemento{
     struct elemento *prox;
 } Elemento;
 
-typedef struct elemento* Lista;
+typedef struct elemento Lista;
 
 // Lista de listas
 // (Lista* vertice1, Lista* vertice2, Lista* vertice3, ...)
-typedef struct{
+typedef struct grafolista{
     Lista **vet; //vetor de listas 
     int nos; //numero de nos no grafo
 }GrafoLista;
@@ -113,6 +113,39 @@ int remove_aresta_lista(GrafoLista* grafol, int no, char *nome_v){
     free(atual); // Libera a memória alocada para o nó
 
     return 1; // Retorna 1 se a remoção foi bem-sucedida
+}
+
+int libera_GrafoLista(GrafoLista* grafol){
+    if(grafol == NULL) return 0;
+
+    for(int i = 0; i < grafol->nos; i++){
+        Elemento* atual = grafol->vet[i];
+        while(atual != NULL){
+            Elemento* temp = atual;
+            atual = atual->prox;
+            free(temp->vertice); // Libera a memória alocada para o nome do vértice
+            free(temp); // Libera a memória alocada para o nó
+        }
+    }
+
+    free(grafol->vet);
+    free(grafol);
+    return 1;
+}
+
+void imprime_GrafoLista(GrafoLista* grafol){
+    if(grafol == NULL) return;
+
+    for(int i = 0; i < grafol->nos; i++){
+        printf("No %d: ", i);
+        Elemento* atual = grafol->vet[i];
+        while(atual != NULL){
+            printf("%s(%d) -> ", atual->vertice, atual->peso);
+            atual = atual->prox;
+        }
+        printf("NULL\n");
+    }
+    return;
 }
 
 /*--------- FIM EXERCÍCIO 4 ---------*/
